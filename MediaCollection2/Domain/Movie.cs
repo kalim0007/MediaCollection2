@@ -14,6 +14,7 @@ namespace MediaCollection2.Domain
         public int GenreID { get; set; }
         public int DirectorID { get; set; }
         public int WriterID { get; set; }
+        //ffddfdsf
         public string UserID { get; set; }
         public Director Director { get; set; }
         public Writer Writer { get; set; }
