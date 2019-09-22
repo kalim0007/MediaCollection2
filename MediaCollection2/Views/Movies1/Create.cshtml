@@ -1,4 +1,4 @@
-﻿@model MediaCollection2.Models.Movies.CreateMovieViewModel
+﻿@model MediaCollection2.Domain.Movie
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-<h4>CreateMovieViewModel</h4>
+<h4>Movie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,6 +21,24 @@
                 <label asp-for="ReleaseDate" class="control-label"></label>
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenreID" class="control-label"></label>
+                <input asp-for="GenreID" class="form-control" />
+                <span asp-validation-for="GenreID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectorID" class="control-label"></label>
+                <select asp-for="DirectorID" class ="form-control" asp-items="ViewBag.DirectorID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="WriterID" class="control-label"></label>
+                <select asp-for="WriterID" class ="form-control" asp-items="ViewBag.WriterID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

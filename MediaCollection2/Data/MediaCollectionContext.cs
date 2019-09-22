@@ -1,4 +1,4 @@
-﻿using MediaCollection2.Domain.Movie;
+﻿using MediaCollection2.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,5 +15,9 @@ namespace MediaCollection2.Data
 
         }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Director> Directors { get; set; }
+        public DbSet<Writer> Writers { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace MediaCollection2.Models.Movies
         public string Titel { get; set; }
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
+        public string DirectorName { get; set; }
+        public string WriterName { get; set; }
     }
 }
