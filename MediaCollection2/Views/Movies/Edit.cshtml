@@ -1,17 +1,21 @@
-﻿@model MediaCollection2.Models.Movies.CreateMovieViewModel
+﻿@model MediaCollection2.Models.EditMovieViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
-<h4>CreateMovieViewModel</h4>
+<h4>EditMovieViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ID" class="control-label"></label>
+                <input type="hidden" asp-for="ID"/>
+            </div>
             <div class="form-group">
                 <label asp-for="Titel" class="control-label"></label>
                 <input asp-for="Titel" class="form-control" />
@@ -28,7 +32,7 @@
                 <span asp-validation-for="Lenght" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>

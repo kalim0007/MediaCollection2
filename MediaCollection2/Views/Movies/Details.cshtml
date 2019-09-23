@@ -1,0 +1,78 @@
+﻿@model MediaCollection2.Models.DetailsMovieViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titel)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Titel)
+            </td>
+            <th></th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.ReleaseDate)
+            </td>
+            <th></th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Lenght)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Lenght)
+            </td>
+            <th></th>
+        </tr>
+        <tr>
+        </tr>
+    </table>
+    <table class="table">
+
+
+        @if (Model.Reviews.Count() != 0)
+        {
+            <tr>
+                <th>Review</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.DisplayFor(model => review.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => review.Comment)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th>Average:</th>
+                <td>
+                    @ViewBag.avg
+                </td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID"><i class="fas fa-edit"></i>Edit</a> |
+    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+
+</div>

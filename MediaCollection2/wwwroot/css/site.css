@@ -27,6 +27,33 @@ body {
 #qrCode {
     margin: 15px;
 }
+.btn-dangerr {
+    color: #fff;
+    background-color: green;
+    border-color: #d43f3a;
+}
+Mybutton {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: green;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

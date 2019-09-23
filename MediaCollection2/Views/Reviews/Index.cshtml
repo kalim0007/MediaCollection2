@@ -1,44 +1,40 @@
-﻿@model IEnumerable<MediaCollection2.Models.Movies.ListMovieViewModel>
+﻿@model IEnumerable<MediaCollection2.Models.Review.MovieReviewListViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ID)
+                @Html.DisplayNameFor(model => model.Rating)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Titel)
+                @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @Html.DisplayNameFor(model => model.Movie)
+                
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lenght)
-            </th>
-            <th>
-                <button asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</button> 
-            </th>
+                <a asp-action="Create" class="btn btn-danger" > <i class="far fa-plus-square"></i>Review</a> 
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
+                @Html.DisplayFor(modelItem => item.Rating)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Titel)
+                @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lenght)
+                @Html.DisplayFor(modelItem => item.Movie)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>

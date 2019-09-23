@@ -8,6 +8,7 @@ using MediaCollection2.Data;
 using MediaCollection2.Models;
 using MediaCollection2.Domain;
 using MediaCollection2.Models.Movies;
+using MediaCollection2.Models.Review;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection2.Controllers
@@ -15,7 +16,9 @@ namespace MediaCollection2.Controllers
     public class MoviesController : Controller
     {
         private readonly MediaCollectionContext context;
-
+        public decimal teller { get; set; }
+        public decimal totalrating { get; set; }
+        public decimal avgrating { get; set; }
         public MoviesController(MediaCollectionContext context)
         {
             this.context = context;
@@ -24,24 +27,60 @@ namespace MediaCollection2.Controllers
         public ActionResult Index()
         {
             var model = new List<ListMovieViewModel>();
-            foreach (var movie in context.Movies.Include(d=>d.Director).Include(w=>w.Writer).Include(g=>g.Genres))
+            var movies = context.Movies;
+            foreach (var movie in movies)
             {
                 model.Add(new ListMovieViewModel()
                 {
                     ID = movie.ID,
-                    Titel = movie.Titel,
-                    DirectorName = movie.Director.Name,
-                    WriterName = movie.Writer.Name,
+                    Titel =movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
+                    Lenght = movie.Lenght,
                 });
             }
+
             return View(model);
         }
 
         // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var movie = context.Movies.Include(m=>m.Reviews).FirstOrDefault(m=>m.ID==id);
+            List<MovieReviewDetailsViewModel> Reviews = new List<MovieReviewDetailsViewModel>();
+            foreach (var review in movie.Reviews)
+            {
+                Reviews.Add(new MovieReviewDetailsViewModel()
+                {
+                    Comment = review.Comment,
+                    ID = review.ID,
+                    MovieID = review.MovieID,
+                    Rating = review.Rating,
+                });
+            }
+            var model = new DetailsMovieViewModel()
+            {
+                ID = movie.ID,
+                Titel =movie.Titel,
+                ReleaseDate = movie.ReleaseDate,
+                Lenght = movie.Lenght,
+                Reviews = Reviews
+            };
+
+            foreach (var review in movie.Reviews)
+            {
+                totalrating = totalrating + review.Rating;
+                teller++;
+            }
+            if (teller != 0)
+            {
+                ViewBag.avg = avgrating = totalrating / teller;
+
+            }
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(model);
         }
 
         // GET: Movies/Create
@@ -59,63 +98,80 @@ namespace MediaCollection2.Controllers
             {
                 context.Movies.Add(new Movie()
                 {
-                    ReleaseDate = model.ReleaseDate,
                     Titel = model.Titel,
-                    Director =null,
-                    Writer = null,
-                    Genres =null,
-                    Rviews = null,
+                    ReleaseDate = model.ReleaseDate,
+                    Lenght = model.Lenght
                 });
                 context.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
 
         }
 
         // GET: Movies/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var movie = context.Movies.Find(id);
+            if (movie==null)
+            {
+                return NotFound();
+            }
+            var model = new EditMovieViewModel()
+            {
+                ID = movie.ID,
+                Titel =movie.Titel,
+                ReleaseDate = movie.ReleaseDate,
+                Lenght = movie.Lenght,
+            };
+            return View(model);
         }
 
         // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, DetailsMovieViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                var movie = context.Movies.Find(id);
+                movie.Titel = model.Titel;
+                movie.ReleaseDate = model.ReleaseDate;
+                movie.Lenght = model.Lenght;
+                context.Movies.Update(movie);
+                context.SaveChanges();
+            }
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: Movies/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var movie = context.Movies.Find(id);
+            var model = new DeleteMovieViewModel()
+            {
+                ID = movie.ID,
+                Titel = movie.Titel
+            };
+            return View(model);
         }
 
         // POST: Movies/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var movie = context.Movies.Find(id);
+            context.Movies.Remove(movie);
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

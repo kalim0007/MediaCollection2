@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MediaCollection2.Migrations
 {
-    public partial class f : Migration
+    public partial class i : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,33 +48,18 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Directors",
+                name: "Movies",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    MovieID = table.Column<int>(nullable: false)
+                    Titel = table.Column<string>(nullable: true),
+                    ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Lenght = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Directors", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Writers",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    MovieID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Writers", x => x.ID);
+                    table.PrimaryKey("PK_Movies", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,36 +169,6 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Titel = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
-                    GenreID = table.Column<int>(nullable: false),
-                    DirectorID = table.Column<int>(nullable: false),
-                    WriterID = table.Column<int>(nullable: false),
-                    UserID = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Movies_Directors_DirectorID",
-                        column: x => x.DirectorID,
-                        principalTable: "Directors",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Movies_Writers_WriterID",
-                        column: x => x.WriterID,
-                        principalTable: "Writers",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
@@ -299,16 +254,6 @@ namespace MediaCollection2.Migrations
                 column: "MovieID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_DirectorID",
-                table: "Movies",
-                column: "DirectorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Movies_WriterID",
-                table: "Movies",
-                column: "WriterID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MovieID",
                 table: "Reviews",
                 column: "MovieID");
@@ -345,12 +290,6 @@ namespace MediaCollection2.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
-
-            migrationBuilder.DropTable(
-                name: "Directors");
-
-            migrationBuilder.DropTable(
-                name: "Writers");
         }
     }
 }

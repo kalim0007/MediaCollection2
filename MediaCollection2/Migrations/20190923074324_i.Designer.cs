@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190922184644_f")]
-    partial class f
+    [Migration("20190923074324_i")]
+    partial class i
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,23 +20,6 @@ namespace MediaCollection2.Migrations
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("MediaCollection2.Domain.Director", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<int>("MovieID");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Directors");
-                });
 
             modelBuilder.Entity("MediaCollection2.Domain.Genre", b =>
                 {
@@ -61,23 +44,13 @@ namespace MediaCollection2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DirectorID");
-
-                    b.Property<int>("GenreID");
+                    b.Property<int>("Lenght");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");
 
-                    b.Property<string>("UserID");
-
-                    b.Property<int>("WriterID");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("DirectorID");
-
-                    b.HasIndex("WriterID");
 
                     b.ToTable("Movies");
                 });
@@ -99,23 +72,6 @@ namespace MediaCollection2.Migrations
                     b.HasIndex("MovieID");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.Writer", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<int>("MovieID");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Writers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -291,23 +247,10 @@ namespace MediaCollection2.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MediaCollection2.Domain.Movie", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.Director", "Director")
-                        .WithMany("Movies")
-                        .HasForeignKey("DirectorID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MediaCollection2.Domain.Writer", "Writer")
-                        .WithMany("Movies")
-                        .HasForeignKey("WriterID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>
                 {
                     b.HasOne("MediaCollection2.Domain.Movie", "Movie")
-                        .WithMany("Rviews")
+                        .WithMany("Reviews")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

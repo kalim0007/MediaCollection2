@@ -7,26 +7,39 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain;
+using MediaCollection2.Models.Genre;
 
 namespace MediaCollection2.Controllers
 {
-    public class Movies1Controller : Controller
+    public class GenresController : Controller
     {
-        private readonly MediaCollectionContext _context;
+        private readonly MediaCollectionContext context;
 
-        public Movies1Controller(MediaCollectionContext context)
+        public GenresController(MediaCollectionContext Context)
         {
-            _context = context;
+            context = Context;
         }
 
-        // GET: Movies1
-        public async Task<IActionResult> Index()
+        // GET: Genres
+        public IActionResult Index()
         {
-            var mediaCollectionContext = _context.Movies.Include(m => m.Director).Include(m => m.Writer);
-            return View(await mediaCollectionContext.ToListAsync());
+            var model = new List<MovieGenreListViewModel>();
+            var genres = context.Genres.Include(r => r.Movie);
+            foreach (var genre in genres)
+            {
+                model.Add(new MovieGenreListViewModel()
+                {
+                    ID = genre.ID,
+                    Naam = genre.Naam,
+                    MovieID = genre.MovieID,
+                    Movie = genre.Movie.Titel
+                });
+            }
+
+            return View(model);
         }
 
-        // GET: Movies1/Details/5
+        // GET: Genres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +47,42 @@ namespace MediaCollection2.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .Include(m => m.Director)
-                .Include(m => m.Writer)
+            var genre = await _context.Genres
+                .Include(g => g.Movie)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (movie == null)
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            return View(genre);
         }
 
-        // GET: Movies1/Create
+        // GET: Genres/Create
         public IActionResult Create()
         {
-            ViewData["DirectorID"] = new SelectList(_context.Directors, "ID", "ID");
-            ViewData["WriterID"] = new SelectList(_context.Writers, "ID", "ID");
+            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "ID");
             return View();
         }
 
-        // POST: Movies1/Create
+        // POST: Genres/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Titel,ReleaseDate,GenreID,DirectorID,WriterID,UserID")] Movie movie)
+        public async Task<IActionResult> Create([Bind("ID,Naam,MovieID")] Genre genre)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(movie);
+                _context.Add(genre);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirectorID"] = new SelectList(_context.Directors, "ID", "ID", movie.DirectorID);
-            ViewData["WriterID"] = new SelectList(_context.Writers, "ID", "ID", movie.WriterID);
-            return View(movie);
+            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "ID", genre.MovieID);
+            return View(genre);
         }
 
-        // GET: Movies1/Edit/5
+        // GET: Genres/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +90,23 @@ namespace MediaCollection2.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null)
             {
                 return NotFound();
             }
-            ViewData["DirectorID"] = new SelectList(_context.Directors, "ID", "ID", movie.DirectorID);
-            ViewData["WriterID"] = new SelectList(_context.Writers, "ID", "ID", movie.WriterID);
-            return View(movie);
+            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "ID", genre.MovieID);
+            return View(genre);
         }
 
-        // POST: Movies1/Edit/5
+        // POST: Genres/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Titel,ReleaseDate,GenreID,DirectorID,WriterID,UserID")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Naam,MovieID")] Genre genre)
         {
-            if (id != movie.ID)
+            if (id != genre.ID)
             {
                 return NotFound();
             }
@@ -106,12 +115,12 @@ namespace MediaCollection2.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
+                    _context.Update(genre);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieExists(movie.ID))
+                    if (!GenreExists(genre.ID))
                     {
                         return NotFound();
                     }
@@ -122,12 +131,11 @@ namespace MediaCollection2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirectorID"] = new SelectList(_context.Directors, "ID", "ID", movie.DirectorID);
-            ViewData["WriterID"] = new SelectList(_context.Writers, "ID", "ID", movie.WriterID);
-            return View(movie);
+            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "ID", genre.MovieID);
+            return View(genre);
         }
 
-        // GET: Movies1/Delete/5
+        // GET: Genres/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,32 +143,31 @@ namespace MediaCollection2.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .Include(m => m.Director)
-                .Include(m => m.Writer)
+            var genre = await _context.Genres
+                .Include(g => g.Movie)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (movie == null)
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            return View(genre);
         }
 
-        // POST: Movies1/Delete/5
+        // POST: Genres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
-            _context.Movies.Remove(movie);
+            var genre = await _context.Genres.FindAsync(id);
+            _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovieExists(int id)
+        private bool GenreExists(int id)
         {
-            return _context.Movies.Any(e => e.ID == id);
+            return _context.Genres.Any(e => e.ID == id);
         }
     }
 }
