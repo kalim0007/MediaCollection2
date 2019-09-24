@@ -169,6 +169,27 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Directors",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    MovieID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Directors", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Directors_Movies_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
@@ -203,6 +224,27 @@ namespace MediaCollection2.Migrations
                     table.PrimaryKey("PK_Reviews", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Reviews_Movies_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Writers",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    MovieID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Writers", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Writers_Movies_MovieID",
                         column: x => x.MovieID,
                         principalTable: "Movies",
                         principalColumn: "ID",
@@ -249,6 +291,11 @@ namespace MediaCollection2.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Directors_MovieID",
+                table: "Directors",
+                column: "MovieID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Genres_MovieID",
                 table: "Genres",
                 column: "MovieID");
@@ -256,6 +303,11 @@ namespace MediaCollection2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MovieID",
                 table: "Reviews",
+                column: "MovieID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Writers_MovieID",
+                table: "Writers",
                 column: "MovieID");
         }
 
@@ -277,10 +329,16 @@ namespace MediaCollection2.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Directors");
+
+            migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "Writers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

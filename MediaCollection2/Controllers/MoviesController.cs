@@ -10,6 +10,8 @@ using MediaCollection2.Domain;
 using MediaCollection2.Models.Movies;
 using MediaCollection2.Models.Review;
 using MediaCollection2.Models.Genre;
+using MediaCollection2.Models.Directors;
+using MediaCollection2.Models.Wrtiters;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection2.Controllers
@@ -28,7 +30,7 @@ namespace MediaCollection2.Controllers
         public ActionResult Index()
         {
             var model = new List<ListMovieViewModel>();
-            var movies = context.Movies.Include(m => m.Director).Include(m => m.Writer);
+            var movies = context.Movies;
             foreach (var movie in movies)
             {
                 model.Add(new ListMovieViewModel()
@@ -37,10 +39,6 @@ namespace MediaCollection2.Controllers
                     Titel =movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
-                    DirectorID = movie.DirectorID,
-                    WriterID = movie.WriterID,
-                    Director = movie.Director.Name,
-                    Writer = movie.Writer.Name,
                 });
             }
 
@@ -50,9 +48,11 @@ namespace MediaCollection2.Controllers
         // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            var movie = context.Movies.Include(m=>m.Reviews).Include(m=>m.Genres).FirstOrDefault(m=>m.ID==id);
+            var movie = context.Movies.Include(m=>m.Reviews).Include(m=>m.Genres).Include(m => m.Directors).Include(m => m.Writers).FirstOrDefault(m=>m.ID==id);
             List<MovieReviewDetailsViewModel> Reviews = new List<MovieReviewDetailsViewModel>();
             List<MovieGenreCreateViewModel> genres = new List<MovieGenreCreateViewModel>();
+            List<MovieDirectorCreateViewModel> directors = new List<MovieDirectorCreateViewModel>();
+            List<MovieWriterCreateViewModel> writers = new List<MovieWriterCreateViewModel>();
             foreach (var review in movie.Reviews)
             {
                 Reviews.Add(new MovieReviewDetailsViewModel()
@@ -67,6 +67,14 @@ namespace MediaCollection2.Controllers
             {
                 genres.Add(new MovieGenreCreateViewModel() { Naam = genre.Naam });
             }
+            foreach (var director in movie.Directors)
+            {
+                directors.Add(new MovieDirectorCreateViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, Movie=director.Movies.Titel });
+            }
+            foreach (var writer in movie.Writers)
+            {
+                writers.Add(new MovieWriterCreateViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, Movie = writer.Movies.Titel });
+            }
             var model = new DetailsMovieViewModel()
             {
                 ID = movie.ID,
@@ -75,6 +83,8 @@ namespace MediaCollection2.Controllers
                 Lenght = movie.Lenght,
                 Reviews = Reviews,
                 Genres = genres,
+                Directors =directors,
+                Writers =writers
             };
 
             foreach (var review in movie.Reviews)

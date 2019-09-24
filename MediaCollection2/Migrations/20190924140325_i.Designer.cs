@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190923230240_i")]
+    [Migration("20190924140325_i")]
     partial class i
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,25 @@ namespace MediaCollection2.Migrations
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MediaCollection2.Domain.Director", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<int>("MovieID");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
+
+                    b.ToTable("Directors");
+                });
 
             modelBuilder.Entity("MediaCollection2.Domain.Genre", b =>
                 {
@@ -72,6 +91,25 @@ namespace MediaCollection2.Migrations
                     b.HasIndex("MovieID");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Writer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<int>("MovieID");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
+
+                    b.ToTable("Writers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -239,6 +277,14 @@ namespace MediaCollection2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MediaCollection2.Domain.Director", b =>
+                {
+                    b.HasOne("MediaCollection2.Domain.Movie", "Movies")
+                        .WithMany("Directors")
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MediaCollection2.Domain.Genre", b =>
                 {
                     b.HasOne("MediaCollection2.Domain.Movie", "Movie")
@@ -251,6 +297,14 @@ namespace MediaCollection2.Migrations
                 {
                     b.HasOne("MediaCollection2.Domain.Movie", "Movie")
                         .WithMany("Reviews")
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Writer", b =>
+                {
+                    b.HasOne("MediaCollection2.Domain.Movie", "Movies")
+                        .WithMany("Writers")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

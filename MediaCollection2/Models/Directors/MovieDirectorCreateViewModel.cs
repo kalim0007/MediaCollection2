@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaCollection2.Domain
+namespace MediaCollection2.Models.Directors
 {
-    public class Director
+    public class MovieDirectorCreateViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
         public int MovieID { get; set; }
-        public Movie Movies { get; set; }
+        public string Movie { get; set; }
     }
 }

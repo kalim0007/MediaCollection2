@@ -35,8 +35,7 @@
             </td>
             <th></th>
         </tr>
-        <tr>
-        </tr>
+        <tr></tr>
     </table>
     <table class="table">
         @if (Model.Reviews.Count() != 0)
@@ -84,16 +83,67 @@
                     <td>
                         @Html.DisplayFor(model => review.Naam)
                     </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
+                    <td></td>
+                    <td></td>
                 </tr>
             }
             <tr>
                 <th></th>
-                <td>
-                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+    <table class="table">
+        @if (Model.Writers.Count() != 0)
+        {
+
+            <tr>
+                <th>Writers</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var writer in Model.Writers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => writer.Name)
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+    <table class="table">
+        @if (Model.Directors.Count() != 0)
+        {
+
+            <tr>
+                <th>Directors</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var director in Model.Directors)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => director.Name)
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <th></th>
+                <td></td>
                 <td></td>
             </tr>
         }
@@ -103,5 +153,4 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID"><i class="fas fa-edit"></i>Edit</a> |
     <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
-
 </div>

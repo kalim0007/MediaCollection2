@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaCollection2.Models.Review;
 using MediaCollection2.Models.Genre;
+using MediaCollection2.Models.Directors;
+using MediaCollection2.Models.Wrtiters;
 
 namespace MediaCollection2.Models
 {
@@ -17,11 +19,8 @@ namespace MediaCollection2.Models
         public int Lenght { get; set; }
         public List<MovieReviewDetailsViewModel> Reviews { get; set; }
         public List<MovieGenreCreateViewModel> Genres { get; set; }
-        public int DirectorID { get; set; }
-        public int WriterID { get; set; }
-        public string Director { get; set; }
-        public string Writer { get; set; }
-        public DateTime DirectorDateOfBirth { get; set; }
-        public DateTime WriterDateOfBirth { get; set; }
+        public List<MovieWriterCreateViewModel> Writers { get; set; }
+        public List<MovieDirectorCreateViewModel> Directors { get; set; }
+
     }
 }

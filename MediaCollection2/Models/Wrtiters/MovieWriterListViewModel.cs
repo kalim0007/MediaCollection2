@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaCollection2.Domain
+namespace MediaCollection2.Models.Wrtiters
 {
-    public class Director
+    public class MovieWriterListViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
         public int MovieID { get; set; }
-        public Movie Movies { get; set; }
+        public string Movies { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace MediaCollection2.Domain
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int MovieID { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        public Movie Movies { get; set; }
     }
 }
