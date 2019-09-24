@@ -1,4 +1,4 @@
-﻿@model MediaCollection2.Domain.Genre
+﻿@model MediaCollection2.Models.Genre.MovieGenreDeleteViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Movie)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Movie.ID)
+            @Html.DisplayFor(model => model.Movie)
         </dd>
     </dl>
     

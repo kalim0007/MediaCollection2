@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MediaCollection2.Models.Genre
 {
-    public class MovieGenreCreateViewModel
+    public class GenreMovieDetailViewModel
     {
         public int ID { get; set; }
         public string Naam { get; set; }

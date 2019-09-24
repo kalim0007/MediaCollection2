@@ -1,4 +1,4 @@
-﻿@model MediaCollection2.Domain.Genre
+﻿@model MediaCollection2.Models.Genre.GenreMovieDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -15,12 +15,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Naam)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Movie)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Movie.ID)
         </dd>
     </dl>
 </div>

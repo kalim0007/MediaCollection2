@@ -9,6 +9,7 @@ using MediaCollection2.Models;
 using MediaCollection2.Domain;
 using MediaCollection2.Models.Movies;
 using MediaCollection2.Models.Review;
+using MediaCollection2.Models.Genre;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection2.Controllers
@@ -27,7 +28,7 @@ namespace MediaCollection2.Controllers
         public ActionResult Index()
         {
             var model = new List<ListMovieViewModel>();
-            var movies = context.Movies;
+            var movies = context.Movies.Include(m => m.Director).Include(m => m.Writer);
             foreach (var movie in movies)
             {
                 model.Add(new ListMovieViewModel()
@@ -36,6 +37,10 @@ namespace MediaCollection2.Controllers
                     Titel =movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
+                    DirectorID = movie.DirectorID,
+                    WriterID = movie.WriterID,
+                    Director = movie.Director.Name,
+                    Writer = movie.Writer.Name,
                 });
             }
 
@@ -45,8 +50,9 @@ namespace MediaCollection2.Controllers
         // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            var movie = context.Movies.Include(m=>m.Reviews).FirstOrDefault(m=>m.ID==id);
+            var movie = context.Movies.Include(m=>m.Reviews).Include(m=>m.Genres).FirstOrDefault(m=>m.ID==id);
             List<MovieReviewDetailsViewModel> Reviews = new List<MovieReviewDetailsViewModel>();
+            List<MovieGenreCreateViewModel> genres = new List<MovieGenreCreateViewModel>();
             foreach (var review in movie.Reviews)
             {
                 Reviews.Add(new MovieReviewDetailsViewModel()
@@ -57,13 +63,18 @@ namespace MediaCollection2.Controllers
                     Rating = review.Rating,
                 });
             }
+            foreach (var genre in movie.Genres)
+            {
+                genres.Add(new MovieGenreCreateViewModel() { Naam = genre.Naam });
+            }
             var model = new DetailsMovieViewModel()
             {
                 ID = movie.ID,
                 Titel =movie.Titel,
                 ReleaseDate = movie.ReleaseDate,
                 Lenght = movie.Lenght,
-                Reviews = Reviews
+                Reviews = Reviews,
+                Genres = genres,
             };
 
             foreach (var review in movie.Reviews)

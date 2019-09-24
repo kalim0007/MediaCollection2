@@ -8,8 +8,8 @@ namespace MediaCollection2.Models.Genre
     public class MovieGenreEditViewModel
     {
         public int ID { get; set; }
-        public int MovieID { get; set; }
-        public int Rating { get; set; }
         public string Naam { get; set; }
+        public int MovieID { get; set; }
+        public string Movie { get; set; }
     }
 }

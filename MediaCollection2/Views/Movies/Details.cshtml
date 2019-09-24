@@ -39,10 +39,9 @@
         </tr>
     </table>
     <table class="table">
-
-
         @if (Model.Reviews.Count() != 0)
         {
+
             <tr>
                 <th>Review</th>
                 <th>Rating</th>
@@ -64,6 +63,36 @@
                 <th>Average:</th>
                 <td>
                     @ViewBag.avg
+                </td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+    <table class="table">
+        @if (Model.Genres.Count() != 0)
+        {
+
+            <tr>
+                <th>Genre</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var review in Model.Genres)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => review.Naam)
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th></th>
+                <td>
                 </td>
                 <td></td>
             </tr>

@@ -14,5 +14,9 @@ namespace MediaCollection2.Models.Movies
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
+        public int DirectorID { get; set; }
+        public int WriterID { get; set; }
+        public string Director { get; set; }
+        public string Writer { get; set; }
     }
 }

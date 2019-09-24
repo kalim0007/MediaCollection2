@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190923074324_i")]
+    [Migration("20190923230240_i")]
     partial class i
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
