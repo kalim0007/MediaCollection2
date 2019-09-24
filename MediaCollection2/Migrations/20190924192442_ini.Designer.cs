@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190924140325_i")]
-    partial class i
+    [Migration("20190924192442_ini")]
+    partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

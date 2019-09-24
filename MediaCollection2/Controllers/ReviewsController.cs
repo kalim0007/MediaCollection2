@@ -155,7 +155,7 @@ namespace MediaCollection2.Controllers
                 Comment = review.Comment,
                 MovieID = review.MovieID,
             };
-            return View(review);
+            return View(model);
         }
 
         // POST: Reviews/Delete/5

@@ -91,7 +91,7 @@ namespace MediaCollection2.Controllers
                 return NotFound();
             }
 
-            var director = await _context.Directors.FindAsync(id);
+            var director = await _context.Directors.Include(d=>d.Movies).FirstOrDefaultAsync(d=>d.ID==id);
             if (director == null)
             {
                 return NotFound();
