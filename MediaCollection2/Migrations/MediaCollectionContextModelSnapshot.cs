@@ -63,6 +63,8 @@ namespace MediaCollection2.Migrations
 
                     b.Property<int>("Lenght");
 
+                    b.Property<string>("PhotoPath");
+
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");

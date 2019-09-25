@@ -10,11 +10,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data"  asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ID" class="control-label"></label>
-                <input type="hidden" asp-for="ID"/>
+                <input type="hidden" asp-for="ID" />
             </div>
             <div class="form-group">
                 <label asp-for="Titel" class="control-label"></label>
@@ -30,6 +30,13 @@
                 <label asp-for="Lenght" class="control-label"></label>
                 <input asp-for="Lenght" class="form-control" />
                 <span asp-validation-for="Lenght" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Photo" class="form-control custom-file-input" />
+                    <label class="custom-file-label"> Choose File...</label>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

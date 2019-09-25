@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+
 }
 
 <h2>Index</h2>
@@ -21,10 +22,7 @@
                 @Html.DisplayNameFor(model => model.Lenght)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Director)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Writer)
+                @Html.DisplayNameFor(model => model.PhotoPath)
             </th>
             <th>
                 <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
@@ -33,6 +31,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ID)
@@ -47,10 +47,7 @@
                 @Html.DisplayFor(modelItem => item.Lenght)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Director)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Writer)
+                <img class="card-img-top img-thumbnail" src="@photoPath" asp-append-version="true"/>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>

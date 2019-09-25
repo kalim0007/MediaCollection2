@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var photoPath = "~/Images/" + (Model.PhotoPath ?? "download.jfif");
 }
 
 <h2>Details</h2>
@@ -10,12 +11,15 @@
     <table class="table">
         <tr>
             <th>
+                <img class="card-img-top img-thumbnail" src="@photoPath" asp-append-version="true" />
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.Titel)
             </th>
             <td>
                 @Html.DisplayFor(model => model.Titel)
             </td>
-            <th></th>
         </tr>
         <tr>
             <th>

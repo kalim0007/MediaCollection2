@@ -14,6 +14,7 @@ namespace MediaCollection2.Domain
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
+        public string PhotoPath { get; set; }
         public ICollection<Director> Directors { get; set; }
         public ICollection<Writer> Writers { get; set; }
         public ICollection<Genre> Genres { get; set; }

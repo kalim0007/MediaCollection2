@@ -13,18 +13,23 @@ using MediaCollection2.Models.Genre;
 using MediaCollection2.Models.Directors;
 using MediaCollection2.Models.Wrtiters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace MediaCollection2.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly MediaCollectionContext context;
+        private readonly IHostingEnvironment hostingEnvironment;
+
         public decimal teller { get; set; }
         public decimal totalrating { get; set; }
         public decimal avgrating { get; set; }
-        public MoviesController(MediaCollectionContext context)
+        public MoviesController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
         {
             this.context = context;
+            this.hostingEnvironment = hostingEnvironment;
         }
         // GET: Movies
         public ActionResult Index()
@@ -39,6 +44,7 @@ namespace MediaCollection2.Controllers
                     Titel =movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
+                    PhotoPath =movie.PhotoPath
                 });
             }
 
@@ -84,7 +90,8 @@ namespace MediaCollection2.Controllers
                 Reviews = Reviews,
                 Genres = genres,
                 Directors =directors,
-                Writers =writers
+                Writers =writers,
+                PhotoPath = movie.PhotoPath
             };
 
             foreach (var review in movie.Reviews)
@@ -101,6 +108,7 @@ namespace MediaCollection2.Controllers
             {
                 return NotFound();
             }
+            
             return View(model);
         }
 
@@ -117,11 +125,20 @@ namespace MediaCollection2.Controllers
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = null;
+                if (model.Photo!=null)
+                {
+                    string UploadsFolder =  Path.Combine(hostingEnvironment.WebRootPath, "images");
+                     uniqueFileName = GetUniqueFileName(model.Photo.FileName);
+                    string filePath = Path.Combine(UploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 context.Movies.Add(new Movie()
                 {
                     Titel = model.Titel,
                     ReleaseDate = model.ReleaseDate,
-                    Lenght = model.Lenght
+                    Lenght = model.Lenght,
+                    PhotoPath = uniqueFileName
                 });
                 context.SaveChanges();
             }
@@ -154,7 +171,7 @@ namespace MediaCollection2.Controllers
         // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, DetailsMovieViewModel model)
+        public ActionResult Edit(int id, EditMovieViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -162,6 +179,15 @@ namespace MediaCollection2.Controllers
                 movie.Titel = model.Titel;
                 movie.ReleaseDate = model.ReleaseDate;
                 movie.Lenght = model.Lenght;
+                string uniqueFileName = null;
+                if (model.Photo != null)
+                {
+                    string UploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = GetUniqueFileName(model.Photo.FileName);
+                    string filePath = Path.Combine(UploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    movie.PhotoPath = uniqueFileName;
+                }
                 context.Movies.Update(movie);
                 context.SaveChanges();
             }
@@ -193,6 +219,14 @@ namespace MediaCollection2.Controllers
             context.Movies.Remove(movie);
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
+        }
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return Path.GetFileNameWithoutExtension(fileName)
+                      + "_"
+                      + Guid.NewGuid().ToString().Substring(0, 4)
+                      + Path.GetExtension(fileName);
         }
     }
 }

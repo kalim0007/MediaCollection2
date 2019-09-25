@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace MediaCollection2.Models.Movies
         public int Lenght { get; set; }
         public string Director { get; set; }
         public string Writer { get; set; }
+        public IFormFile Photo { get; set; }
         public DateTime DirectorDateOfBirth { get; set; }
         public DateTime WriterDateOfBirth { get; set; }
     }

@@ -36,7 +36,7 @@ namespace MediaCollection2
             });
             services.AddDbContext<MediaCollectionContext>(options =>
 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser,IdentityRole>()
                 .AddEntityFrameworkStores<MediaCollectionContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
