@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace MediaCollection2.Models.Admin
 {
-    public class EditRoleViewModel
+    public class DeleteRoleViewModel
     {
         public string id { get; set; }
         public string RoleName { get; set; }
-        public List<string> Users { get; set; } = new List<string>();
     }
 }

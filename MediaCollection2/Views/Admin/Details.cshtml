@@ -1,0 +1,48 @@
+﻿@model MediaCollection2.Models.Admin.DetailRoleViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+<table class="table">
+    <tr>
+        <th>id</th>
+        <th>Role Name</th>
+    </tr>
+    <tr>
+        <td>@Model.id</td>
+        <td>@Model.RoleName</td>
+    </tr>
+</table>
+</div>
+<div>
+
+    <table class="table">
+
+        <tr>
+            <th>User</th>
+        </tr>
+        @if (Model.Users != null)
+        {
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>There are no Users</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

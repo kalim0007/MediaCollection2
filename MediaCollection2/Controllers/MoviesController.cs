@@ -15,6 +15,8 @@ using MediaCollection2.Models.Wrtiters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MediaCollection2.Controllers
 {
@@ -22,14 +24,16 @@ namespace MediaCollection2.Controllers
     {
         private readonly MediaCollectionContext context;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly UserManager<IdentityUser> userManager;
 
         public decimal teller { get; set; }
         public decimal totalrating { get; set; }
         public decimal avgrating { get; set; }
-        public MoviesController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
+        public MoviesController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment,UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.hostingEnvironment = hostingEnvironment;
+            this.userManager = userManager;
         }
         // GET: Movies
         public ActionResult Index()
@@ -47,7 +51,6 @@ namespace MediaCollection2.Controllers
                     PhotoPath =movie.PhotoPath
                 });
             }
-
             return View(model);
         }
 
@@ -84,14 +87,14 @@ namespace MediaCollection2.Controllers
             var model = new DetailsMovieViewModel()
             {
                 ID = movie.ID,
-                Titel =movie.Titel,
+                Titel = movie.Titel,
                 ReleaseDate = movie.ReleaseDate,
                 Lenght = movie.Lenght,
                 Reviews = Reviews,
                 Genres = genres,
-                Directors =directors,
-                Writers =writers,
-                PhotoPath = movie.PhotoPath
+                Directors = directors,
+                Writers = writers,
+                PhotoPath = movie.PhotoPath,
             };
 
             foreach (var review in movie.Reviews)
@@ -115,6 +118,7 @@ namespace MediaCollection2.Controllers
         // GET: Movies/Create
         public ActionResult Create()
         {
+            ViewData["PlaylistID"] = new SelectList(context.MoviePlaylists, "ID", "Titel");
             return View();
         }
 
@@ -123,6 +127,7 @@ namespace MediaCollection2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateMovieViewModel model)
         {
+            var userId = userManager.GetUserId(HttpContext.User);
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
@@ -138,8 +143,10 @@ namespace MediaCollection2.Controllers
                     Titel = model.Titel,
                     ReleaseDate = model.ReleaseDate,
                     Lenght = model.Lenght,
-                    PhotoPath = uniqueFileName
-                });
+                    PhotoPath = uniqueFileName,
+                    UserId = userId,
+                    MoviePlaylistID = model.PlaylistID,
+                }) ; 
                 context.SaveChanges();
             }
             return RedirectToAction(nameof(Index));

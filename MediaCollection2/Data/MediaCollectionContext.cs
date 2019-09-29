@@ -19,5 +19,6 @@ namespace MediaCollection2.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Director> Directors { get; set; }
         public DbSet<Writer> Writers { get; set; }
+        public DbSet<MoviePlaylist> MoviePlaylists { get; set; }
     }
 }

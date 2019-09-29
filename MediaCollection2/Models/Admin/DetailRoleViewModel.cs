@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MediaCollection2.Models.Admin
 {
-    public class EditRoleViewModel
+    public class DetailRoleViewModel
     {
         public string id { get; set; }
         public string RoleName { get; set; }

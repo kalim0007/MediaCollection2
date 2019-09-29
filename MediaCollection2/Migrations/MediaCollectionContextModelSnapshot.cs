@@ -63,15 +63,36 @@ namespace MediaCollection2.Migrations
 
                     b.Property<int>("Lenght");
 
+                    b.Property<int>("MoviePlaylistID");
+
                     b.Property<string>("PhotoPath");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("ID");
 
+                    b.HasIndex("MoviePlaylistID");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.MoviePlaylist", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Naam");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Playlists");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>
@@ -229,11 +250,9 @@ namespace MediaCollection2.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -264,11 +283,9 @@ namespace MediaCollection2.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -291,6 +308,18 @@ namespace MediaCollection2.Migrations
                         .WithMany("Genres")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Movie", b =>
+                {
+                    b.HasOne("MediaCollection2.Domain.MoviePlaylist", "Playlists")
+                        .WithMany("Movies")
+                        .HasForeignKey("MoviePlaylistID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>

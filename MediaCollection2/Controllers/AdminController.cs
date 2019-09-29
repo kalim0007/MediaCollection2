@@ -27,9 +27,24 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Admin/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var role = await roleManager.FindByIdAsync(id);
+            var model = new DetailRoleViewModel() { id = role.Id, RoleName = role.Name };
+
+            foreach (var user in userManager.Users)
+            {
+                if (await userManager.IsInRoleAsync(user,role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+
+            return View(model);
         }
 
         // GET: Admin/Create
@@ -80,38 +95,167 @@ namespace MediaCollection2.Controllers
         // POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, EditRoleViewModel model)
+        public async Task<ActionResult> Edit(string id, EditRoleViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var role = roleManager.Roles.FirstOrDefault(r => r.Id == id);
-                //role.Name = model.Naam;
-                //roleManager.Roles;
+                role.Name = model.RoleName;
+                await roleManager.UpdateAsync(role);
             }
-            return View(model);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
-            return View();
+            var role = await roleManager.FindByIdAsync(id);
+            var model = new DeleteRoleViewModel() { RoleName = role.Name, id = role.Id };
+            return View(model);
         }
 
         // POST: Admin/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            try
+            if (id!=null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                var role = await roleManager.FindByIdAsync(id);
+                await roleManager.DeleteAsync(role);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUsersInRole(string roleId)
+        {
+            ViewBag.roleId = roleId;
+
+            var role = await roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
+                return View("NotFound");
+            }
+
+            var model = new List<UserRoleViewModel>();
+
+            foreach (var user in userManager.Users)
+            {
+                var userRoleViewModel = new UserRoleViewModel
+                {
+                    userId = user.Id,
+                    UserName = user.UserName
+                };
+
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userRoleViewModel.IsSelected = true;
+                }
+                else
+                {
+                    userRoleViewModel.IsSelected = false;
+                }
+
+                model.Add(userRoleViewModel);
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
+        {
+            var role = await roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
+                return View("NotFound");
+            }
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                var user = await userManager.FindByIdAsync(model[i].userId);
+
+                IdentityResult result = null;
+
+                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name)))
+                {
+                    result = await userManager.AddToRoleAsync(user, role.Name);
+                }
+                else if (!model[i].IsSelected && await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
+                        continue;
+                    else
+                        return RedirectToAction("Edit", new { Id = roleId });
+                }
+            }
+
+            return RedirectToAction("Edit", new { Id = roleId });
+        }
+        //[HttpGet]
+        //public async Task<ActionResult> EditUsersInRole(string roleId)
+        //{
+        //    ViewBag.roleId = roleId;
+        //    var role = await roleManager.FindByIdAsync(roleId);
+        //    if (role == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var model = new List<UserRoleViewModel>();
+        //    foreach (var user in userManager.Users)
+        //    {
+        //        var userRoleViewModel = new UserRoleViewModel
+        //        {
+        //            userId = user.Id,
+        //            UserName = user.UserName,
+        //        };
+        //        if (await userManager.IsInRoleAsync(user,role.Name))
+        //        {
+        //            userRoleViewModel.IsSelected = true;
+        //        }
+        //        else
+        //        {
+        //            userRoleViewModel.IsSelected = false;
+        //        }
+        //        model.Add(userRoleViewModel);
+        //    }
+        //    return View(model);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> EditUsersInRole(string roleId, List<UserRoleViewModel> model)
+        //{
+        //    var role = await roleManager.FindByIdAsync(roleId);
+        //    foreach (var user in model)
+        //    {
+        //        var User = await userManager.FindByIdAsync(user.userId);
+        //        IdentityResult result = null;
+        //        if (user.IsSelected&& !(await userManager.IsInRoleAsync(User,role.Name)))
+        //        {
+        //            result = await userManager.AddToRoleAsync(User, role.Name);
+        //        }
+        //        else if (!user.IsSelected && (await userManager.IsInRoleAsync(User, role.Name)))
+        //        {
+        //            result = await userManager.RemoveFromRoleAsync (User, role.Name);
+        //        }
+        //        else
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //    return RedirectToAction("Edit", new { id = roleId });
+        //}
     }
 }

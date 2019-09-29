@@ -20,5 +20,8 @@ namespace MediaCollection2.Models.Movies
         public IFormFile Photo { get; set; }
         public DateTime DirectorDateOfBirth { get; set; }
         public DateTime WriterDateOfBirth { get; set; }
+        public string UserId { get; set; }
+        public int PlaylistID { get; set; }
+        public string Playlist { get; set; }
     }
 }

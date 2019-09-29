@@ -14,8 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="id" class="control-label"></label>
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger"></span>
+                <input asp-for="id" disabled class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="RoleName" class="control-label"></label>
@@ -28,9 +27,30 @@
         </form>
     </div>
 </div>
-//
-
+<div class="card">
+    <div class="card-header">
+        <h3>Users In this role</h3>
+    </div>
+    <div class="card-body">
+        @if (Model.Users.Count()!=0)
+        {
+            foreach (var user in Model.Users)
+            {
+                <h5 class="card-title">@user</h5>
+            }
+        }
+        else
+        {
+            <h5>None At the moment</h5>
+        }
+    </div>
+    <div class="card-footer">
+        <a asp-controller="Admin" asp-action="EditUsersInRole"
+           asp-route-roleId="@Model.id" class="btn btn-primary">
+            Add or remove users from this role
+        </a>
+    </div>
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-

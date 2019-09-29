@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaCollection2.Models.Admin
+namespace MediaCollection2.Models.Users
 {
-    public class EditRoleViewModel
+    public class UserViewModel
     {
         public string id { get; set; }
+        public string UserName { get; set; }
         public string RoleName { get; set; }
-        public List<string> Users { get; set; } = new List<string>();
+        public bool IsSelected { get; set; }
     }
 }

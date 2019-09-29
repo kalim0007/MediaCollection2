@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -118,7 +118,7 @@ namespace MediaCollection2.Controllers
                     await _context.SaveChangesAsync();
 
             }
-            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "ID", model.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "Titel", model.MovieID);
             return RedirectToAction(nameof(Index));
         }
 
