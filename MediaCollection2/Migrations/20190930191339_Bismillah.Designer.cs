@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190930090431_in")]
-    partial class @in
+    [Migration("20190930191339_Bismillah")]
+    partial class Bismillah
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,7 +105,7 @@ namespace MediaCollection2.Migrations
 
                     b.HasIndex("MoviePlaylistID");
 
-                    b.ToTable("MoviePlaylistComb");
+                    b.ToTable("MoviePlaylistCombs");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>

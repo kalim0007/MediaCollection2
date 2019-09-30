@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MediaCollection2.Migrations
 {
-    public partial class @in : Migration
+    public partial class Bismillah : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -224,7 +224,7 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MoviePlaylistComb",
+                name: "MoviePlaylistCombs",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -234,15 +234,15 @@ namespace MediaCollection2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MoviePlaylistComb", x => x.ID);
+                    table.PrimaryKey("PK_MoviePlaylistCombs", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_MoviePlaylistComb_Movies_MovieID",
+                        name: "FK_MoviePlaylistCombs_Movies_MovieID",
                         column: x => x.MovieID,
                         principalTable: "Movies",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MoviePlaylistComb_MoviePlaylists_MoviePlaylistID",
+                        name: "FK_MoviePlaylistCombs_MoviePlaylists_MoviePlaylistID",
                         column: x => x.MoviePlaylistID,
                         principalTable: "MoviePlaylists",
                         principalColumn: "ID",
@@ -341,13 +341,13 @@ namespace MediaCollection2.Migrations
                 column: "MovieID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoviePlaylistComb_MovieID",
-                table: "MoviePlaylistComb",
+                name: "IX_MoviePlaylistCombs_MovieID",
+                table: "MoviePlaylistCombs",
                 column: "MovieID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoviePlaylistComb_MoviePlaylistID",
-                table: "MoviePlaylistComb",
+                name: "IX_MoviePlaylistCombs_MoviePlaylistID",
+                table: "MoviePlaylistCombs",
                 column: "MoviePlaylistID");
 
             migrationBuilder.CreateIndex(
@@ -385,7 +385,7 @@ namespace MediaCollection2.Migrations
                 name: "Genres");
 
             migrationBuilder.DropTable(
-                name: "MoviePlaylistComb");
+                name: "MoviePlaylistCombs");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
