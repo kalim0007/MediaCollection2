@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain;
+using MediaCollection2.Models.MoviePlaylist;
+using MediaCollection2.Models;
 
 namespace MediaCollection2.Controllers
 {
@@ -20,9 +22,18 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: MoviePlaylists
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.MoviePlaylists.ToListAsync());
+            List<MoviePlaylistViewModel> model = new List<MoviePlaylistViewModel>();
+            foreach (var playlist in _context.MoviePlaylists)
+            {
+                model.Add(new MoviePlaylistViewModel()
+                {
+                    ID = playlist.ID,
+                    Naam = playlist.Naam,
+                });
+            }
+            return View(model);
         }
 
         // GET: MoviePlaylists/Details/5
@@ -35,12 +46,22 @@ namespace MediaCollection2.Controllers
 
             var moviePlaylist = await _context.MoviePlaylists
                 .FirstOrDefaultAsync(m => m.ID == id);
+            List<DeleteMovieViewModel> movies = new List<DeleteMovieViewModel>();
+            foreach (var movie in _context.MoviePlaylistCombs.Include(m=>m.Movie).Where(m=>m.MoviePlaylistID==id))
+            {
+                movies.Add(new DeleteMovieViewModel() { Titel = movie.Movie.Titel, ReleaseDate = movie.Movie.ReleaseDate, Lenght = movie.Movie.Lenght });
+            }
             if (moviePlaylist == null)
             {
                 return NotFound();
             }
-
-            return View(moviePlaylist);
+            var model = new MoviePlaylistViewModel()
+            {
+                ID = moviePlaylist.ID,
+                Naam = moviePlaylist.Naam,
+                Movies = movies,
+            };
+            return View(model);
         }
 
         // GET: MoviePlaylists/Create
@@ -54,15 +75,14 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Naam")] MoviePlaylist moviePlaylist)
+        public async Task<IActionResult> Create(MoviePlaylistViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(moviePlaylist);
+                _context.Add(new MoviePlaylist() { ID = model.ID, Naam=model.Naam });
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(moviePlaylist);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: MoviePlaylists/Edit/5
@@ -78,7 +98,12 @@ namespace MediaCollection2.Controllers
             {
                 return NotFound();
             }
-            return View(moviePlaylist);
+            var model = new MoviePlaylistViewModel()
+            {
+                ID = moviePlaylist.ID,
+                Naam = moviePlaylist.Naam,
+            };
+            return View(model);
         }
 
         // POST: MoviePlaylists/Edit/5
@@ -86,34 +111,19 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Naam")] MoviePlaylist moviePlaylist)
+        public async Task<IActionResult> Edit(MoviePlaylistViewModel model)
         {
-            if (id != moviePlaylist.ID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
+
+                    var moviePlaylist = _context.MoviePlaylists.Find(model.ID);
+                    moviePlaylist.Naam = model.Naam;
                     _context.Update(moviePlaylist);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MoviePlaylistExists(moviePlaylist.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
             }
-            return View(moviePlaylist);
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: MoviePlaylists/Delete/5
@@ -126,12 +136,17 @@ namespace MediaCollection2.Controllers
 
             var moviePlaylist = await _context.MoviePlaylists
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (moviePlaylist == null)
             {
                 return NotFound();
             }
-
-            return View(moviePlaylist);
+            var model = new MoviePlaylistViewModel()
+            {
+                ID = moviePlaylist.ID,
+                Naam = moviePlaylist.Naam,
+            };
+            return View(model);
         }
 
         // POST: MoviePlaylists/Delete/5
@@ -145,9 +160,5 @@ namespace MediaCollection2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MoviePlaylistExists(int id)
-        {
-            return _context.MoviePlaylists.Any(e => e.ID == id);
-        }
     }
 }

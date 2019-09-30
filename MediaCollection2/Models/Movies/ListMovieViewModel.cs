@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace MediaCollection2.Models.Movies
         public int WriterID { get; set; }
         public string Director { get; set; }
         public string Writer { get; set; }
+        public string MoviePlaylistsID { get; set; }
+        public List<SelectListItem> selectListItems { get; set; }
+        
+        
     }
 }

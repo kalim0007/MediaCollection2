@@ -20,5 +20,6 @@ namespace MediaCollection2.Data
         public DbSet<Director> Directors { get; set; }
         public DbSet<Writer> Writers { get; set; }
         public DbSet<MoviePlaylist> MoviePlaylists { get; set; }
+        public DbSet<MoviePlaylistComb> MoviePlaylistCombs { get; set; }
     }
 }

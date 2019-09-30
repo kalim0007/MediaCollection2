@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    [Migration("20190929154908_in")]
+    [Migration("20190930090431_in")]
     partial class @in
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,21 +65,13 @@ namespace MediaCollection2.Migrations
 
                     b.Property<int>("Lenght");
 
-                    b.Property<int>("MoviePlaylistID");
-
                     b.Property<string>("PhotoPath");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("MoviePlaylistID");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Movies");
                 });
@@ -94,7 +86,26 @@ namespace MediaCollection2.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Playlists");
+                    b.ToTable("MoviePlaylists");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.MoviePlaylistComb", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MovieID");
+
+                    b.Property<int>("MoviePlaylistID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
+
+                    b.HasIndex("MoviePlaylistID");
+
+                    b.ToTable("MoviePlaylistComb");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>
@@ -312,16 +323,17 @@ namespace MediaCollection2.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MediaCollection2.Domain.Movie", b =>
+            modelBuilder.Entity("MediaCollection2.Domain.MoviePlaylistComb", b =>
                 {
-                    b.HasOne("MediaCollection2.Domain.MoviePlaylist", "Playlists")
+                    b.HasOne("MediaCollection2.Domain.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MediaCollection2.Domain.MoviePlaylist", "MoviePlaylist")
                         .WithMany("Movies")
                         .HasForeignKey("MoviePlaylistID")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>

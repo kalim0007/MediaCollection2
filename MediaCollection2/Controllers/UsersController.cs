@@ -117,7 +117,7 @@ namespace MediaCollection2.Controllers
             if (id != null)
             {
                 var user = await userManager.FindByIdAsync(id);
-                var movies = context.Movies.Where(m => m.UserId == id);
+                var movies = context.Movies;
                 foreach (var movie in movies)
                 {
                     context.Movies.Remove(movie);

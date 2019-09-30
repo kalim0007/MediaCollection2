@@ -20,5 +20,6 @@ namespace MediaCollection2.Models
         public IFormFile Photo { get; set; }
         public string PhotoPath { get; set; }
         public string Writer { get; set; }
+        public int PlaylistID { get; set; }
     }
 }

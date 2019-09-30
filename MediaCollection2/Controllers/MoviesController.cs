@@ -144,8 +144,6 @@ namespace MediaCollection2.Controllers
                     ReleaseDate = model.ReleaseDate,
                     Lenght = model.Lenght,
                     PhotoPath = uniqueFileName,
-                    UserId = userId,
-                    MoviePlaylistID = model.PlaylistID,
                 }) ; 
                 context.SaveChanges();
             }
@@ -172,6 +170,8 @@ namespace MediaCollection2.Controllers
                 ReleaseDate = movie.ReleaseDate,
                 Lenght = movie.Lenght,
             };
+            ViewBag.PlaylistID = new SelectList(context.MoviePlaylists, "ID", "Naam");
+
             return View(model);
         }
 
@@ -196,6 +196,8 @@ namespace MediaCollection2.Controllers
                     movie.PhotoPath = uniqueFileName;
                 }
                 context.Movies.Update(movie);
+                context.SaveChanges();
+                context.MoviePlaylistCombs.Add(new MoviePlaylistComb() { MovieID = model.ID, MoviePlaylistID = model.PlaylistID });
                 context.SaveChanges();
             }
                 return RedirectToAction(nameof(Index));

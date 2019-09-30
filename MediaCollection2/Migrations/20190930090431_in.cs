@@ -48,7 +48,7 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Playlists",
+                name: "MoviePlaylists",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -57,7 +57,23 @@ namespace MediaCollection2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Playlists", x => x.ID);
+                    table.PrimaryKey("PK_MoviePlaylists", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Titel = table.Column<string>(nullable: true),
+                    ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Lenght = table.Column<int>(nullable: false),
+                    PhotoPath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,36 +183,6 @@ namespace MediaCollection2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Titel = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
-                    Lenght = table.Column<int>(nullable: false),
-                    PhotoPath = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
-                    MoviePlaylistID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Movies_Playlists_MoviePlaylistID",
-                        column: x => x.MoviePlaylistID,
-                        principalTable: "Playlists",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Movies_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Directors",
                 columns: table => new
                 {
@@ -233,6 +219,32 @@ namespace MediaCollection2.Migrations
                         name: "FK_Genres_Movies_MovieID",
                         column: x => x.MovieID,
                         principalTable: "Movies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MoviePlaylistComb",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MovieID = table.Column<int>(nullable: false),
+                    MoviePlaylistID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MoviePlaylistComb", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_MoviePlaylistComb_Movies_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MoviePlaylistComb_MoviePlaylists_MoviePlaylistID",
+                        column: x => x.MoviePlaylistID,
+                        principalTable: "MoviePlaylists",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -329,14 +341,14 @@ namespace MediaCollection2.Migrations
                 column: "MovieID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_MoviePlaylistID",
-                table: "Movies",
-                column: "MoviePlaylistID");
+                name: "IX_MoviePlaylistComb_MovieID",
+                table: "MoviePlaylistComb",
+                column: "MovieID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_UserId",
-                table: "Movies",
-                column: "UserId");
+                name: "IX_MoviePlaylistComb_MoviePlaylistID",
+                table: "MoviePlaylistComb",
+                column: "MoviePlaylistID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MovieID",
@@ -373,6 +385,9 @@ namespace MediaCollection2.Migrations
                 name: "Genres");
 
             migrationBuilder.DropTable(
+                name: "MoviePlaylistComb");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
@@ -382,13 +397,13 @@ namespace MediaCollection2.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Movies");
-
-            migrationBuilder.DropTable(
-                name: "Playlists");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MoviePlaylists");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
         }
     }
 }
