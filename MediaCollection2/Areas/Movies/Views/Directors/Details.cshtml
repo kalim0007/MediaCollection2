@@ -1,0 +1,36 @@
+﻿@model MediaCollection2.Models.Directors.MovieDirectorDetailsViewModel
+
+@{
+    Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Director</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Movies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Movies)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID"> <i class="fas fa-edit"></i> Edit</a>
+    <a asp-action="Index">Back to List</a>
+</div>

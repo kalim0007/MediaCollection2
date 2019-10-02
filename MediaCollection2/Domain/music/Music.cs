@@ -14,6 +14,8 @@ namespace MediaCollection2.Domain.music
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
         public string PhotoPath { get; set; }
+        public bool WantToListen { get; set; }
+        public bool Listened { get; set; }
         public ICollection<MusicDirector> Directors { get; set; }
         public ICollection<MusicWriter> Writers { get; set; }
         public ICollection<MusicGenre> Genres { get; set; }

@@ -4,16 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaCollection2.Domain.music
+namespace MediaCollection2.Models.MusicModels
 {
-    public class MusicDirector
+    public class MusicViewModels
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string Titel { get; set; }
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth {get; set;}
+        public DateTime ReleaseDate { get; set; }
+        public int Lenght { get; set; }
         public string PhotoPath { get; set; }
-        public int MusicID { get; set; }
-        public Music Musics { get; set; }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model MediaCollection2.Models.MoviePlaylist.MoviePlaylistViewModel
+
+@{
+    Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+
+}
+
+<h2>Details</h2>
+
+
+<div>
+    <div>
+        @if (Model.Movies.Count() != 0)
+        {
+            <table class="table">
+
+                <tr>
+                    <th>Nr.</th>
+                    <th>Titel</th>
+                    <th>ReleaseDate</th>
+                    <th>Lenght</th>
+                </tr>
+
+                @for (int i = 1; i < Model.Movies.Count + 1; i++)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>
+                            @Model.Movies[i - 1].Titel
+                        </td>
+                        <td>
+                            @Model.Movies[i - 1].ReleaseDate
+
+                        </td>
+                        <td>
+                            @Model.Movies[i - 1].Lenght
+                        </td>
+                    </tr>
+                }
+                @foreach (var review in Model.Movies)
+                {
+
+                }
+            </table>
+        }
+
+    </div>
+
+</div>
+<div>
+    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+</div>

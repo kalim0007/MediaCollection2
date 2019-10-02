@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MediaCollection2.Models.Directors.MovieDirectorListViewModel>
+@{
+    Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies)
+            </th>
+            <th>
+                <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movies)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID"> <i class="fas fa-info"></i> Detail</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID"> <i class="fas fa-trash-alt"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

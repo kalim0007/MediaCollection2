@@ -1,0 +1,60 @@
+﻿@model MediaCollection2.Models.EditMovieViewModel
+
+@{
+     Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>EditMovieViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data"  asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ID" class="control-label"></label>
+                <input type="hidden" asp-for="ID" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lenght" class="control-label"></label>
+                <input asp-for="Lenght" class="form-control" />
+                <span asp-validation-for="Lenght" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Photo" class="form-control custom-file-input" />
+                    <label class="custom-file-label"> Choose File...</label>
+                </div>
+            </div>
+            <div>
+                <label asp-for="PlaylistID" class="control-label"></label>
+                <select asp-for="PlaylistID" class="form-control" asp-items="ViewBag.PlaylistID"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

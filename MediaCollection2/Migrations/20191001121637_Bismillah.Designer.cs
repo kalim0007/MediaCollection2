@@ -4,14 +4,16 @@ using MediaCollection2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    partial class MediaCollectionContextModelSnapshot : ModelSnapshot
+    [Migration("20191001121637_Bismillah")]
+    partial class Bismillah
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,165 +104,6 @@ namespace MediaCollection2.Migrations
                     b.HasIndex("MovieID");
 
                     b.ToTable("MoviePlaylistCombs");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.Album", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Naam");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Albums");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.Music", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Lenght");
-
-                    b.Property<bool>("Listened");
-
-                    b.Property<string>("PhotoPath");
-
-                    b.Property<DateTime>("ReleaseDate");
-
-                    b.Property<string>("Titel");
-
-                    b.Property<bool>("WantToListen");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Musics");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicAlbum", b =>
-                {
-                    b.Property<int>("AlbumID");
-
-                    b.Property<int>("MusicID");
-
-                    b.HasKey("AlbumID", "MusicID");
-
-                    b.HasIndex("MusicID");
-
-                    b.ToTable("MusicAlbums");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicDirector", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<int>("MusicID");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("PhotoPath");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MusicID");
-
-                    b.ToTable("MusicDirectors");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicGenre", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MusicID");
-
-                    b.Property<string>("Naam");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MusicID");
-
-                    b.ToTable("MusicGenres");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicPlaylist", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Naam");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MusicPlaylists");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicPlaylistComb", b =>
-                {
-                    b.Property<int>("MusicPlaylistID");
-
-                    b.Property<int>("MusicID");
-
-                    b.Property<int?>("AlbumID");
-
-                    b.HasKey("MusicPlaylistID", "MusicID");
-
-                    b.HasIndex("AlbumID");
-
-                    b.HasIndex("MusicID");
-
-                    b.ToTable("MusicPlaylistCombs");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicReview", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Comment");
-
-                    b.Property<int>("MusicsID");
-
-                    b.Property<int>("Rating");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MusicsID");
-
-                    b.ToTable("MusicReviews");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicWriter", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<int>("MusicID");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MusicID");
-
-                    b.ToTable("MusicWriters");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Review", b =>
@@ -495,75 +338,6 @@ namespace MediaCollection2.Migrations
                     b.HasOne("MediaCollection2.Domain.MoviePlaylist", "MoviePlaylist")
                         .WithMany("Movies")
                         .HasForeignKey("MoviePlaylistID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicAlbum", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Album", "Album")
-                        .WithMany()
-                        .HasForeignKey("AlbumID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany()
-                        .HasForeignKey("MusicID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicDirector", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany("Directors")
-                        .HasForeignKey("MusicID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicGenre", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany("Genres")
-                        .HasForeignKey("MusicID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicPlaylist", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicPlaylistComb", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Album")
-                        .WithMany("Musics")
-                        .HasForeignKey("AlbumID");
-
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany()
-                        .HasForeignKey("MusicID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MediaCollection2.Domain.music.MusicPlaylist", "MusicPlaylist")
-                        .WithMany("Musics")
-                        .HasForeignKey("MusicPlaylistID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicReview", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany("Reviews")
-                        .HasForeignKey("MusicsID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MediaCollection2.Domain.music.MusicWriter", b =>
-                {
-                    b.HasOne("MediaCollection2.Domain.music.Music", "Musics")
-                        .WithMany("Writers")
-                        .HasForeignKey("MusicID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

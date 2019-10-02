@@ -66,3 +66,16 @@ Mybutton {
         display: none;
     }
 }
+.SubMenu {
+    border-collapse: separate;
+    border-spacing: 1px;
+    width: 100%;
+    margin: 0px;
+    border: 1px;
+    background :#63ba57;
+}
+    .SubMenu th {
+        padding: 10px 0;
+    }
+
+

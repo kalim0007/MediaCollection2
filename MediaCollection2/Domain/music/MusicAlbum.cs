@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace MediaCollection2.Domain.music
 {
-    public class MusicGenre
+    public class MusicAlbum
     {
-        public int ID { get; set; }
-        public string Naam { get; set; }
+        public int AlbumID { get; set; }
         public int MusicID { get; set; }
         public Music Musics { get; set; }
+        public Album Album { get; set; }
     }
 }

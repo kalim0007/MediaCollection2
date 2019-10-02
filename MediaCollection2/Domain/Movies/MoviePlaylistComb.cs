@@ -7,7 +7,6 @@ namespace MediaCollection2.Domain
 {
     public class MoviePlaylistComb
     {
-        public int ID { get; set; }
         public int MovieID { get; set; }
         public int MoviePlaylistID { get; set; }
         public Movie Movie { get; set; }
