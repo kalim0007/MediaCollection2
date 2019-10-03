@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\**" />
+    <Compile Remove="Areas\Movies\**" />
+    <Compile Remove="Areas\Music\**" />
+    <Content Remove="Areas\Admin\**" />
+    <Content Remove="Areas\Movies\**" />
+    <Content Remove="Areas\Music\**" />
+    <EmbeddedResource Remove="Areas\Admin\**" />
+    <EmbeddedResource Remove="Areas\Movies\**" />
+    <EmbeddedResource Remove="Areas\Music\**" />
+    <None Remove="Areas\Admin\**" />
+    <None Remove="Areas\Movies\**" />
+    <None Remove="Areas\Music\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
@@ -12,20 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\Movies\Controllers\" />
-    <Folder Include="Areas\Movies\Data\" />
-    <Folder Include="Areas\Movies\Models\" />
-    <Folder Include="Areas\Movies\Views\" />
-    <Folder Include="Areas\Music\Controllers\" />
-    <Folder Include="Areas\Music\Data\" />
-    <Folder Include="Areas\Music\Models\" />
-    <Folder Include="Areas\Music\Views\" />
-    <Folder Include="Controllers\MusicControllers\" />
   </ItemGroup>
 
 </Project>

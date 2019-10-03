@@ -1,0 +1,31 @@
+﻿@model MediaCollection2.Models.MusicModels.MusicGenre.MusicGenreViewModel
+
+@{
+    Layout = "~/Views/Shared/_MusicLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MusicGenre</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Music)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MusicID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

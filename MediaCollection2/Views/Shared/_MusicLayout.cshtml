@@ -44,6 +44,16 @@
             </div>
         </div>
     </nav>
+    <table class="SubMenu">
+        <tr>
+            <th><a asp-area="" asp-controller="MusicReviews" asp-action="Index">Reviews</a></th>
+            <th><a asp-area="" asp-controller="MusicDirectors" asp-action="Index">Directors</a></th>
+            <th><a asp-area="" asp-controller="MusicWriters" asp-action="Index">Writers</a></th>
+            <th><a asp-area="" asp-controller="MusicGenres" asp-action="Index">Genres</a></th>
+            <th><a asp-area="" asp-controller="MusicPlaylists" asp-action="Index">Playlists</a></th>
+        </tr>
+    </table>
+
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
