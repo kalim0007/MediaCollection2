@@ -66,11 +66,11 @@ namespace MediaCollection2.Controllers
             }
             foreach (var director in music.Directors)
             {
-                directors.Add(new MusicDirectorViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, music = director.Musics.Titel });
+                directors.Add(new MusicDirectorViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, Music = director.Music.Titel });
             }
             foreach (var writer in music.Writers)
             {
-                writers.Add(new MusicWriterViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, music = writer.Musics.Titel });
+                writers.Add(new MusicWriterViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, Music = writer.Music.Titel });
             }
             var model = new MusicDetailViewModel()
             {

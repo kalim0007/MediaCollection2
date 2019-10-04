@@ -10,7 +10,8 @@ namespace MediaCollection2.Domain.music
         public int ID { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string PhotoPath { get; set; }
         public int MusicID { get; set; }
-        public Music Musics { get; set; }
+        public Music Music { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace MediaCollection2.Domain.music
         public int ID { get; set; }
         public string Naam { get; set; }
         public string UserId { get; set; }
+        public bool Public { get; set; }
         public IdentityUser User { get; set; }
         public ICollection<MusicPlaylistComb> Musics { get; set; }
     }

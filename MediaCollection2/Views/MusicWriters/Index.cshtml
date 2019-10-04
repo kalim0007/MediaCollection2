@@ -1,8 +1,7 @@
-﻿@model IEnumerable<MediaCollection2.Models.MusicModels.MusicDirector.MusicDirectorViewModel>
-
+﻿@model IEnumerable<MediaCollection2.Models.MusicModels.MusicWriter.MusicWriterViewModel>
 @{
-    Layout = "~/Views/Shared/_MusicLayout.cshtml";
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MusicLayout.cshtml";
 }
 
 <h2>Index</h2>
@@ -13,14 +12,12 @@
 <table class="table">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoPath)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Music)
@@ -40,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
-                <img class="IndexImg" src="@photoPath" asp-append-version="true" />
+                @Html.DisplayFor(modelItem => item.Music)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MusicID)
+                <img class="IndexImg" src="@photoPath" asp-append-version="true" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

@@ -1,14 +1,14 @@
-﻿@model MediaCollection2.Models.MusicModels.MusicGenre.MusicGenreViewModel
+﻿@model MediaCollection2.Models.MusicModels.MusicPlaylist.MusicPlaylistViewModel
 
 @{
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_MusicLayout.cshtml";
-    ViewData["Title"] = "Create";
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>MusicGenre</h4>
+    <h4>MusicPlaylist</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,10 +18,16 @@
             @Html.DisplayFor(model => model.Naam)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Music)
+            @Html.DisplayNameFor(model => model.Public)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Music)
+            @Html.DisplayFor(model => model.Public)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User)
         </dd>
     </dl>
 </div>

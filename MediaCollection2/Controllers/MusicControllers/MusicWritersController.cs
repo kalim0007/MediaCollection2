@@ -7,19 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain.music;
-using MediaCollection2.Models.MusicModels.MusicGenre;
-using MediaCollection2.Models.MusicModels.MusicDirector;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using MediaCollection2.Models.MusicModels.MusicWriter;
+using System.IO;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
-    public class MusicDirectorsController : Controller
+    public class MusicWritersController : Controller
     {
         private readonly MediaCollectionContext _context;
         private readonly IHostingEnvironment hostingEnvironment;
 
-        public MusicDirectorsController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
+        public MusicWritersController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             this.hostingEnvironment = hostingEnvironment;
@@ -28,18 +27,18 @@ namespace MediaCollection2.Controllers.MusicControllers
         // GET: MusicDirectors
         public IActionResult Index()
         {
-            var Directors = _context.MusicDirectors.Include(m => m.Music);
-            List<MusicDirectorViewModel> model = new List<MusicDirectorViewModel>();
-            foreach (var directors in Directors)
+            var Writers = _context.MusicWriters.Include(m => m.Music);
+            List<MusicWriterViewModel> model = new List<MusicWriterViewModel>();
+            foreach (var writer in Writers)
             {
-                model.Add(new MusicDirectorViewModel()
+                model.Add(new MusicWriterViewModel()
                 {
-                    Music = directors.Music.Titel,
-                    Name = directors.Name,
-                    DateOfBirth = directors.DateOfBirth,
-                    MusicID = directors.MusicID,
-                    PhotoPath = directors.PhotoPath,
-                    ID = directors.ID
+                    Music = writer.Music.Titel,
+                    Name = writer.Name,
+                    DateOfBirth = writer.DateOfBirth,
+                    MusicID = writer.MusicID,
+                    PhotoPath = writer.PhotoPath,
+                    ID = writer.ID
                 });
             }
             return View(model);
@@ -53,21 +52,21 @@ namespace MediaCollection2.Controllers.MusicControllers
                 return NotFound();
             }
 
-            var director = await _context.MusicDirectors
+            var writer = await _context.MusicWriters
                 .Include(m => m.Music)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (director == null)
+            if (writer == null)
             {
                 return NotFound();
             }
-            var model = (new MusicDirectorViewModel()
+            var model = (new MusicWriterViewModel()
             {
-                Music = director.Music.Titel,
-                Name = director.Name,
-                MusicID = director.MusicID,
-                DateOfBirth = director.DateOfBirth,
-                PhotoPath = director.PhotoPath,
-                ID = director.ID
+                Music = writer.Music.Titel,
+                Name = writer.Name,
+                MusicID = writer.MusicID,
+                DateOfBirth = writer.DateOfBirth,
+                PhotoPath = writer.PhotoPath,
+                ID = writer.ID
             });
             return View(model);
         }
@@ -84,7 +83,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MusicDirectorViewModel model)
+        public async Task<IActionResult> Create(MusicWriterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +95,7 @@ namespace MediaCollection2.Controllers.MusicControllers
                     string filePath = Path.Combine(UploadsFolder, uniqueFileName);
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
-                _context.MusicDirectors.Add(new MusicDirector() { Name = model.Name, MusicID = model.MusicID, PhotoPath= uniqueFileName, DateOfBirth=model.DateOfBirth });
+                _context.MusicWriters.Add(new MusicWriter() { Name = model.Name, MusicID = model.MusicID, PhotoPath = uniqueFileName, DateOfBirth = model.DateOfBirth });
                 await _context.SaveChangesAsync();
             }
             ViewData["MusicsID"] = new SelectList(_context.Musics, "ID", "Titel");
@@ -111,17 +110,17 @@ namespace MediaCollection2.Controllers.MusicControllers
                 return NotFound();
             }
 
-            var director = _context.MusicDirectors.Include(m => m.Music).FirstOrDefault(m => m.ID == id);
-            var model = new MusicDirectorViewModel()
+            var writer = _context.MusicWriters.Include(m => m.Music).FirstOrDefault(m => m.ID == id);
+            var model = new MusicWriterViewModel()
             {
-                Music = director.Music.Titel,
-                Name = director.Name,
-                MusicID = director.MusicID,
-                PhotoPath = director.PhotoPath,
-                DateOfBirth = director.DateOfBirth,
-                ID = director.ID
+                Music = writer.Music.Titel,
+                Name = writer.Name,
+                MusicID = writer.MusicID,
+                PhotoPath = writer.PhotoPath,
+                DateOfBirth = writer.DateOfBirth,
+                ID = writer.ID
             };
-            if (director == null)
+            if (writer == null)
             {
                 return NotFound();
             }
@@ -134,7 +133,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(MusicDirectorViewModel model)
+        public async Task<IActionResult> Edit(MusicWriterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -146,15 +145,15 @@ namespace MediaCollection2.Controllers.MusicControllers
                     string filePath = Path.Combine(UploadsFolder, uniqueFileName);
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
-                var director = await _context.MusicDirectors.FindAsync(model.ID);
-                director.Name = model.Name;
-                director.MusicID = model.MusicID;
-                director.DateOfBirth = model.DateOfBirth;
-                if (model.Photo!=null)
+                var writer = await _context.MusicWriters.FindAsync(model.ID);
+                writer.Name = model.Name;
+                writer.MusicID = model.MusicID;
+                writer.DateOfBirth = model.DateOfBirth;
+                if (model.Photo != null)
                 {
-                    director.PhotoPath = uniqueFileName;
+                    writer.PhotoPath = uniqueFileName;
                 }
-                _context.Update(director);
+                _context.Update(writer);
                 await _context.SaveChangesAsync();
 
             }
@@ -170,21 +169,21 @@ namespace MediaCollection2.Controllers.MusicControllers
                 return NotFound();
             }
 
-            var director = await _context.MusicDirectors
+            var writer = await _context.MusicWriters
                 .Include(m => m.Music)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
-            if (director == null)
+            if (writer == null)
             {
                 return NotFound();
             }
-            var model = new MusicDirectorViewModel()
+            var model = new MusicWriterViewModel()
             {
-                Music = director.Music.Titel,
-                Name = director.Name,
-                DateOfBirth = director.DateOfBirth,
-                MusicID = director.MusicID,
-                ID = director.ID
+                Music = writer.Music.Titel,
+                Name = writer.Name,
+                DateOfBirth = writer.DateOfBirth,
+                MusicID = writer.MusicID,
+                ID = writer.ID
             };
             return View(model);
         }
@@ -194,8 +193,8 @@ namespace MediaCollection2.Controllers.MusicControllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var director = await _context.MusicDirectors.FindAsync(id);
-            _context.MusicDirectors.Remove(director);
+            var writer = await _context.MusicWriters.FindAsync(id);
+            _context.MusicWriters.Remove(writer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
