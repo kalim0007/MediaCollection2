@@ -112,6 +112,8 @@ namespace MediaCollection2.Migrations
 
                     b.Property<string>("Naam");
 
+                    b.Property<string>("PhotoPath");
+
                     b.HasKey("ID");
 
                     b.ToTable("Albums");
@@ -284,6 +286,61 @@ namespace MediaCollection2.Migrations
                     b.HasIndex("MovieID");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Series.Episode", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EpisodeNr");
+
+                    b.Property<int>("Length");
+
+                    b.Property<int>("SeasonID");
+
+                    b.Property<string>("Titel");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("SeasonID");
+
+                    b.ToTable("Episodes");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Series.Season", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Nr");
+
+                    b.Property<string>("PhotoPath");
+
+                    b.Property<int>("SerieID");
+
+                    b.Property<string>("Titel");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("SerieID");
+
+                    b.ToTable("Seasons");
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Series.Serie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Titel");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Series");
                 });
 
             modelBuilder.Entity("MediaCollection2.Domain.Writer", b =>
@@ -576,6 +633,22 @@ namespace MediaCollection2.Migrations
                     b.HasOne("MediaCollection2.Domain.Movie", "Movie")
                         .WithMany("Reviews")
                         .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Series.Episode", b =>
+                {
+                    b.HasOne("MediaCollection2.Domain.Series.Season", "Season")
+                        .WithMany("Episodes")
+                        .HasForeignKey("SeasonID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MediaCollection2.Domain.Series.Season", b =>
+                {
+                    b.HasOne("MediaCollection2.Domain.Series.Serie", "Serie")
+                        .WithMany("Season")
+                        .HasForeignKey("SerieID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

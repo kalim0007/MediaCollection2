@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MediaCollection2.Migrations
 {
-    public partial class ffgdfg : Migration
+    public partial class dffdgvv : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace MediaCollection2.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Naam = table.Column<string>(nullable: true)
+                    Naam = table.Column<string>(nullable: true),
+                    PhotoPath = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,6 +93,19 @@ namespace MediaCollection2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Musics", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Series",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Titel = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Series", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +241,8 @@ namespace MediaCollection2.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Naam = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    Public = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -418,6 +433,7 @@ namespace MediaCollection2.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
+                    PhotoPath = table.Column<string>(nullable: true),
                     MusicID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -427,6 +443,28 @@ namespace MediaCollection2.Migrations
                         name: "FK_MusicWriters_Musics_MusicID",
                         column: x => x.MusicID,
                         principalTable: "Musics",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seasons",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Titel = table.Column<string>(nullable: true),
+                    Nr = table.Column<int>(nullable: false),
+                    PhotoPath = table.Column<string>(nullable: true),
+                    SerieID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seasons", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Seasons_Series_SerieID",
+                        column: x => x.SerieID,
+                        principalTable: "Series",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -486,6 +524,28 @@ namespace MediaCollection2.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Episodes",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Titel = table.Column<string>(nullable: true),
+                    EpisodeNr = table.Column<int>(nullable: false),
+                    Length = table.Column<int>(nullable: false),
+                    SeasonID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Episodes", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Episodes_Seasons_SeasonID",
+                        column: x => x.SeasonID,
+                        principalTable: "Seasons",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -529,6 +589,11 @@ namespace MediaCollection2.Migrations
                 name: "IX_Directors_MovieID",
                 table: "Directors",
                 column: "MovieID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Episodes_SeasonID",
+                table: "Episodes",
+                column: "SeasonID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Genres_MovieID",
@@ -591,6 +656,11 @@ namespace MediaCollection2.Migrations
                 column: "MovieID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Seasons_SerieID",
+                table: "Seasons",
+                column: "SerieID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Writers_MovieID",
                 table: "Writers",
                 column: "MovieID");
@@ -615,6 +685,9 @@ namespace MediaCollection2.Migrations
 
             migrationBuilder.DropTable(
                 name: "Directors");
+
+            migrationBuilder.DropTable(
+                name: "Episodes");
 
             migrationBuilder.DropTable(
                 name: "Genres");
@@ -650,6 +723,9 @@ namespace MediaCollection2.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Seasons");
+
+            migrationBuilder.DropTable(
                 name: "MoviePlaylists");
 
             migrationBuilder.DropTable(
@@ -663,6 +739,9 @@ namespace MediaCollection2.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Series");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

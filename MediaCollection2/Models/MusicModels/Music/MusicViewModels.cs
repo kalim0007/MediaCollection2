@@ -18,5 +18,6 @@ namespace MediaCollection2.Models.MusicModels
         public bool WantToListen { get; set; }
         public bool Listened { get; set; }
         public string PhotoPath { get; set; }
+        public int playlist { get; set; }
     }
 }

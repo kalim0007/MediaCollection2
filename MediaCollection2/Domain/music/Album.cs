@@ -9,6 +9,7 @@ namespace MediaCollection2.Domain.music
     {
         public int ID { get; set; }
         public string Naam { get; set; }
+        public string PhotoPath { get; set; }
         public ICollection<MusicPlaylistComb> Musics { get; set; }
     }
 }

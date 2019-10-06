@@ -26,12 +26,21 @@ namespace MediaCollection2.Controllers
         public decimal totalrating { get; set; }
         public decimal avgrating { get; set; }
 
-        public MusicsController(MediaCollectionContext context,  IHostingEnvironment hostingEnvironment)
+        public MusicsController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             this.hostingEnvironment = hostingEnvironment;
         }
-    public IActionResult Index()
+        public IActionResult MusicToPlaylist()
+        {
+            return View("Index");
+        }
+        [HttpPost]
+        public IActionResult MusicToPlaylist(int? id, int? musicId)
+        {
+            return View();
+        }
+        public IActionResult Index()
         {
             List<MusicViewModels> model = new List<MusicViewModels>();
             var musics = _context.Musics.ToList();
@@ -39,6 +48,7 @@ namespace MediaCollection2.Controllers
             {
                 model.Add(new MusicViewModels() { ID = music.ID, Lenght = music.Lenght, PhotoPath = music.PhotoPath, ReleaseDate = music.ReleaseDate, Titel = music.Titel });
             }
+            ViewData["playlist"] = new SelectList(_context.MusicPlaylists, "ID", "Naam");
             return View(model);
         }
 
@@ -62,7 +72,7 @@ namespace MediaCollection2.Controllers
             }
             foreach (var genre in music.Genres)
             {
-                genres.Add(new MusicGenreViewModel() {  Naam= genre.Naam });
+                genres.Add(new MusicGenreViewModel() { Naam = genre.Naam });
             }
             foreach (var director in music.Directors)
             {
@@ -119,7 +129,7 @@ namespace MediaCollection2.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if (model.Photo !=null)
+                if (model.Photo != null)
                 {
                     string UploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
                     uniqueFileName = GetUniqueFilmName(model.Photo.FileName);
@@ -127,9 +137,15 @@ namespace MediaCollection2.Controllers
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
 
-                _context.Add(new Music() {Titel = model.Titel, Lenght=model.Lenght, PhotoPath= uniqueFileName,
-                    Listened =model.Listened,WantToListen=model.WantToListen,
-                    ReleaseDate =model.ReleaseDate});
+                _context.Add(new Music()
+                {
+                    Titel = model.Titel,
+                    Lenght = model.Lenght,
+                    PhotoPath = uniqueFileName,
+                    Listened = model.Listened,
+                    WantToListen = model.WantToListen,
+                    ReleaseDate = model.ReleaseDate
+                });
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
@@ -173,25 +189,25 @@ namespace MediaCollection2.Controllers
 
             if (ModelState.IsValid)
             {
-                    if (model.Photo != null)
-                    {
-                        string UploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                        uniqueFileName = GetUniqueFilmName(model.Photo.FileName);
-                        string filePath = Path.Combine(UploadsFolder, uniqueFileName);
-                        model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    }
-                    var music = _context.Musics.Find(model.ID);
-                    music.Lenght = model.Lenght;
-                    music.ReleaseDate = model.ReleaseDate;
-                    music.Titel = model.Titel;
-                    music.WantToListen = model.WantToListen;
-                    music.Listened = model.Listened;
-                    if (model.Photo!=null)
-                    {
-                        music.PhotoPath = uniqueFileName;
-                    }
-                    _context.Update(music);
-                    await _context.SaveChangesAsync();
+                if (model.Photo != null)
+                {
+                    string UploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = GetUniqueFilmName(model.Photo.FileName);
+                    string filePath = Path.Combine(UploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                var music = _context.Musics.Find(model.ID);
+                music.Lenght = model.Lenght;
+                music.ReleaseDate = model.ReleaseDate;
+                music.Titel = model.Titel;
+                music.WantToListen = model.WantToListen;
+                music.Listened = model.Listened;
+                if (model.Photo != null)
+                {
+                    music.PhotoPath = uniqueFileName;
+                }
+                _context.Update(music);
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
         }
@@ -236,9 +252,9 @@ namespace MediaCollection2.Controllers
         private string GetUniqueFilmName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
-            return Path.GetFileNameWithoutExtension(fileName) 
-                + "_" 
-                + Guid.NewGuid().ToString().Substring(0, 4) 
+            return Path.GetFileNameWithoutExtension(fileName)
+                + "_"
+                + Guid.NewGuid().ToString().Substring(0, 4)
                 + Path.GetExtension(fileName);
 
         }

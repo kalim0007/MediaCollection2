@@ -1,0 +1,42 @@
+﻿@model MediaCollection2.Models.SeriesModels.SerieDetailViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_SerieLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Serie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Titel)
+        </dd>
+    </dl>
+</div>
+<div>
+    @foreach (var season in Model.Season)
+    {
+            var photoPath = "~/Images/" + (season.PhotoPath ?? "download.jfif");
+    <table>
+        <tr>
+            <th><label asp-for="@season.Nr"></label></th>
+            <th><label asp-for="@season.Photo"></label></th>
+        </tr>
+        <tr>
+            
+            <td>@season.Nr</td>
+            <td><img src="@photoPath" class="IndexImg"  asp-append-version="true"/></td>
+        </tr>
+    </table>
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

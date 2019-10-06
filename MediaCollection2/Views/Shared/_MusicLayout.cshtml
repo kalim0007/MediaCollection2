@@ -39,6 +39,7 @@
                     <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
                     <li><a asp-area="" asp-controller="Users" asp-action="Index">User</a></li>
                     <li><a asp-area="" asp-controller="Musics" asp-action="Index">Musics</a></li>
+                    <li><a asp-area="" asp-controller="Series" asp-action="Index">Series</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -46,11 +47,13 @@
     </nav>
     <table class="SubMenu">
         <tr>
+            <th><a asp-area="" asp-controller="Musics" asp-action="Index">Musics</a></th>
             <th><a asp-area="" asp-controller="MusicReviews" asp-action="Index">Reviews</a></th>
             <th><a asp-area="" asp-controller="MusicDirectors" asp-action="Index">Directors</a></th>
             <th><a asp-area="" asp-controller="MusicWriters" asp-action="Index">Writers</a></th>
             <th><a asp-area="" asp-controller="MusicGenres" asp-action="Index">Genres</a></th>
             <th><a asp-area="" asp-controller="MusicPlaylists" asp-action="Index">Playlists</a></th>
+            <th><a asp-area="" asp-controller="MusicsAlbum" asp-action="Index">Album</a></th>
         </tr>
     </table>
 

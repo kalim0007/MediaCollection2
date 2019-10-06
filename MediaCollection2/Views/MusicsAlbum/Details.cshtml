@@ -1,0 +1,55 @@
+﻿@model MediaCollection2.Models.MusicModels.MusicAlbum.MusicAlbumViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    var photoPath = "~/Images/" + (Model.PhotoPath ?? "download.jfif");
+    Layout = "~/Views/Shared/_MusicLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <div>
+        @if (Model.Musics.Count() != 0)
+        {
+            <table class="table">
+
+                <tr>
+                    <th>Nr.</th>
+                    <th>Titel</th>
+                    <th>ReleaseDate</th>
+                    <th>Lenght</th>
+                    <th></th>
+                </tr>
+
+                @for (int i = 1; i < Model.Musics.Count + 1; i++)
+                {
+                    var photoPath2 = "~/Images/" + (Model.Musics[i-1].PhotoPath?? "download.jfif");
+
+                    <tr>
+                        <td>@i</td>
+                        <td>
+                            @Model.Musics[i - 1].Titel
+                        </td>
+                        <td>
+                            @Model.Musics[i - 1].ReleaseDate
+
+                        </td>
+                        <td>
+                            @Model.Musics[i - 1].Lenght
+                        </td>
+                        <td>
+                            <img src="@photoPath2" class="IndexImg" asp-append-version="true" />
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+
+    </div>
+
+</div>
+<div>
+    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+</div>
+

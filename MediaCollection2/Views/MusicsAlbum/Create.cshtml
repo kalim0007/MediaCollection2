@@ -1,16 +1,17 @@
-﻿@model MediaCollection2.Models.MusicModels.MusicPlaylist.MusicPlaylistViewModel
-@{ 
+﻿@model MediaCollection2.Models.MusicModels.MusicAlbum.MusicAlbumViewModel
+
+@{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_MusicLayout.cshtml";
 }
 
 <h2>Create</h2>
 
-<h4>MusicPlaylist</h4>
+<h4>Album</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Naam" class="control-label"></label>
@@ -18,10 +19,10 @@
                 <span asp-validation-for="Naam" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Public" /> @Html.DisplayNameFor(model => model.Public)
-                    </label>
+                <label asp-for="Photo" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Photo" class="form-control custom-file-input" />
+                    <label class="custom-file-label"> Choose File...</label>
                 </div>
             </div>
             <div class="form-group">

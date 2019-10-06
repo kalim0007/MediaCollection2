@@ -1,5 +1,6 @@
 ﻿using MediaCollection2.Domain;
 using MediaCollection2.Domain.music;
+using MediaCollection2.Domain.Series;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -30,9 +31,12 @@ namespace MediaCollection2.Data
         public DbSet<MusicWriter> MusicWriters { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<MusicPlaylistComb> MusicPlaylistCombs { get; set; }
-
         public DbSet<MusicAlbum> MusicAlbums { get; set; }
         public DbSet<Album> Albums { get; set; }
+
+        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Serie> Series { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,7 +45,7 @@ namespace MediaCollection2.Data
             builder.Entity<MusicPlaylistComb>()
                 .HasKey(c => new { c.MusicPlaylistID, c.MusicID });
             builder.Entity<MusicAlbum>()
-    .HasKey(c => new { c.AlbumID, c.MusicID });
+                   .HasKey(c => new { c.AlbumID, c.MusicID });
             base.OnModelCreating(builder);
         }
     }

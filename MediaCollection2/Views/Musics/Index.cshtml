@@ -29,8 +29,9 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-            var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
+@foreach (var item in Model)
+{
+    var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Titel)
