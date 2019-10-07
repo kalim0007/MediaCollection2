@@ -10,9 +10,11 @@ using MediaCollection2.Domain.Series;
 using MediaCollection2.Models.SeriesModels;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.SerieControllers
 {
+    [Authorize]
     public class SeasonsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -31,7 +33,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             List<SeasonViewModel> model = new List<SeasonViewModel>();
             foreach (var season in seasons)
             {
-                model.Add(new SeasonViewModel() { ID = season.ID, Titel = season.Titel , Serie = season.Serie.Titel, Nr = season.Nr });
+                model.Add(new SeasonViewModel() { ID = season.ID, Titel = season.Titel , Serie = season.Serie.Titel, Nr = season.Nr, PhotoPath = season.PhotoPath, Rating = season.Rating });
             }
             return View(model);
 
@@ -56,7 +58,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             {
                 return NotFound();
             }
-            var model = new SeasonDetailViewModel() { ID = seasons.ID, Titel = seasons.Titel, Episodes = episodes };
+            var model = new SeasonDetailViewModel() { ID = seasons.ID, Titel = seasons.Titel, Episodes = episodes, Rating = seasons.Rating };
             return View(model);
         }
 
@@ -85,7 +87,7 @@ namespace MediaCollection2.Controllers.SerieControllers
                     string filePath = Path.Combine(UploadsFolder, uniqueFileName);
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
-                _context.Add(new Season() { Titel = model.Titel, Nr = model.Nr, PhotoPath = uniqueFileName, SerieID = model.SerieID  });
+                _context.Add(new Season() { Titel = model.Titel, Nr = model.Nr, PhotoPath = uniqueFileName, SerieID = model.SerieID, Rating = model.Rating });
                 await _context.SaveChangesAsync();
             }
 
@@ -106,7 +108,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             {
                 return NotFound();
             }
-            var model = new SeasonViewModel() { ID = season.ID, Titel = season.Titel, SerieID = season.Serie.ID, PhotoPath = season.PhotoPath  };
+            var model = new SeasonViewModel() { ID = season.ID, Titel = season.Titel, SerieID = season.Serie.ID, PhotoPath = season.PhotoPath, Rating = season.Rating };
             ViewData["SerieID"] = new SelectList(_context.Series, "ID", "Titel");
             return View(model);
         }
@@ -132,6 +134,7 @@ namespace MediaCollection2.Controllers.SerieControllers
                 season.Titel = model.Titel;
                 season.Nr = model.Nr;
                 season.SerieID = model.SerieID;
+                season.Rating = model.Rating;
                 if (model.Photo!=null)
                 {
                     season.PhotoPath = uniqueFileName;

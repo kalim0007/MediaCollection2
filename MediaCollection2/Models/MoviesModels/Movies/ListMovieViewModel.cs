@@ -14,12 +14,14 @@ namespace MediaCollection2.Models.Movies
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
+        public int Rating { get; set; }
         public string PhotoPath { get; set; }
         public int DirectorID { get; set; }
         public int WriterID { get; set; }
         public string Director { get; set; }
         public string Writer { get; set; }
         public string MoviePlaylistsID { get; set; }
-        
+        public bool WantToListen { get; set; }
+        public bool Listened { get; set; }
     }
 }

@@ -63,11 +63,15 @@ namespace MediaCollection2.Migrations
 
                     b.Property<int>("Lenght");
 
+                    b.Property<bool>("Listened");
+
                     b.Property<string>("PhotoPath");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");
+
+                    b.Property<bool>("WantToListen");
 
                     b.HasKey("ID");
 
@@ -81,6 +85,8 @@ namespace MediaCollection2.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Naam");
+
+                    b.Property<bool>("Public");
 
                     b.Property<string>("UserId");
 
@@ -294,9 +300,9 @@ namespace MediaCollection2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EpisodeNr");
-
                     b.Property<int>("Length");
+
+                    b.Property<int>("Nr");
 
                     b.Property<int>("SeasonID");
 
@@ -318,6 +324,8 @@ namespace MediaCollection2.Migrations
                     b.Property<int>("Nr");
 
                     b.Property<string>("PhotoPath");
+
+                    b.Property<int>("Rating");
 
                     b.Property<int>("SerieID");
 

@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain.music;
 using MediaCollection2.Models.MusicModels.MusicGenre;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
+    [Authorize]
     public class MusicGenresController : Controller
     {
         private readonly MediaCollectionContext _context;

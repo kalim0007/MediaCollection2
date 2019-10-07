@@ -10,9 +10,11 @@ using MediaCollection2.Domain.music;
 using Microsoft.AspNetCore.Identity;
 using MediaCollection2.Models.MusicModels.MusicPlaylist;
 using MediaCollection2.Models.MusicModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
+    [Authorize]
     public class MusicPlaylistsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -24,7 +26,6 @@ namespace MediaCollection2.Controllers.MusicControllers
             this.userManager = userManager;
         }
 
-        // GET: MusicPlaylists
         public IActionResult Index()
         {
             List<MusicPlaylistViewModel> model = new List<MusicPlaylistViewModel>();
@@ -47,7 +48,6 @@ namespace MediaCollection2.Controllers.MusicControllers
             return View(model);
         }
 
-        // GET: MoviePlaylists/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,15 +76,12 @@ namespace MediaCollection2.Controllers.MusicControllers
             return View(model);
         }
 
-        // GET: MoviePlaylists/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: MoviePlaylists/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MusicPlaylistViewModel model)
@@ -98,7 +95,6 @@ namespace MediaCollection2.Controllers.MusicControllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: MoviePlaylists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -121,9 +117,7 @@ namespace MediaCollection2.Controllers.MusicControllers
             return View(model);
         }
 
-        // POST: MoviePlaylists/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(MusicPlaylistViewModel model)
@@ -143,7 +137,6 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         }
 
-        // GET: MoviePlaylists/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,7 +159,6 @@ namespace MediaCollection2.Controllers.MusicControllers
             return View(model);
         }
 
-        // POST: MoviePlaylists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

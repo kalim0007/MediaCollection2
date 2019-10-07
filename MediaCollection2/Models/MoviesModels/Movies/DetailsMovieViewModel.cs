@@ -18,6 +18,8 @@ namespace MediaCollection2.Models
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
         public string PhotoPath { get; set; }
+        public bool WantToListen { get; set; }
+        public bool Listened { get; set; }
         public string Playlist { get; set; }
         public List<MovieReviewDetailsViewModel> Reviews { get; set; }
         public List<MovieGenreCreateViewModel> Genres { get; set; }

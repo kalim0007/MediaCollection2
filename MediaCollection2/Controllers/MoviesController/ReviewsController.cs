@@ -10,9 +10,11 @@ using MediaCollection2.Domain;
 using MediaCollection2.Models.Review;
 using MediaCollection2.Models.Movies;
 using MediaCollection2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly MediaCollectionContext context;

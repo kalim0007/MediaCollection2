@@ -16,6 +16,8 @@ namespace MediaCollection2.Models.Movies
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
         public string Director { get; set; }
+        public bool WantToListen { get; set; }
+        public bool Listened { get; set; }
         public string Writer { get; set; }
         public IFormFile Photo { get; set; }
         public DateTime DirectorDateOfBirth { get; set; }

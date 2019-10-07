@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form enctype="multipart/form-data"  asp-action="Edit">
+        <form enctype="multipart/form-data" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ID" class="control-label"></label>
@@ -43,6 +43,20 @@
             <div>
                 <label asp-for="PlaylistID" class="control-label"></label>
                 <select asp-for="PlaylistID" class="form-control" asp-items="ViewBag.PlaylistID"></select>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="WantToListen" /> @Html.DisplayNameFor(model => model.WantToListen)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Listened" /> @Html.DisplayNameFor(model => model.Listened)
+                    </label>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

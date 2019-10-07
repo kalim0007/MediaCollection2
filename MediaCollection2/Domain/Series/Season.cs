@@ -12,6 +12,7 @@ namespace MediaCollection2.Domain.Series
         public int Nr { get; set; }
         public string PhotoPath { get; set; }
         public int SerieID { get; set; }
+        public int Rating { get; set; }
         public Serie Serie { get; set; }
         public ICollection<Episode> Episodes { get; set; }
     }

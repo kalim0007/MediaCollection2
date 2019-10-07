@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MediaCollection2.Models.Admin;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;

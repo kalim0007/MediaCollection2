@@ -17,9 +17,11 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Areas.Movies
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly MediaCollectionContext context;
@@ -49,7 +51,10 @@ namespace MediaCollection2.Areas.Movies
                     Titel =movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
-                    PhotoPath =movie.PhotoPath
+                    PhotoPath =movie.PhotoPath,
+                    WantToListen = movie.WantToListen,
+                    Listened = movie.Listened,
+                    
                 });
             }
             return View(model);
@@ -96,6 +101,8 @@ namespace MediaCollection2.Areas.Movies
                 Directors = directors,
                 Writers = writers,
                 PhotoPath = movie.PhotoPath,
+                WantToListen = movie.WantToListen,
+                Listened = movie.Listened,
             };
 
             foreach (var review in movie.Reviews)
@@ -145,6 +152,8 @@ namespace MediaCollection2.Areas.Movies
                     ReleaseDate = model.ReleaseDate,
                     Lenght = model.Lenght,
                     PhotoPath = uniqueFileName,
+                    WantToListen = model.WantToListen,
+                    Listened = model.Listened,
                 }) ; 
                 context.SaveChanges();
             }
@@ -170,6 +179,8 @@ namespace MediaCollection2.Areas.Movies
                 Titel =movie.Titel,
                 ReleaseDate = movie.ReleaseDate,
                 Lenght = movie.Lenght,
+                WantToListen = movie.WantToListen,
+                Listened = movie.Listened,
             };
             ViewBag.PlaylistID = new SelectList(context.MoviePlaylists, "ID", "Naam");
 
@@ -187,6 +198,9 @@ namespace MediaCollection2.Areas.Movies
                 movie.Titel = model.Titel;
                 movie.ReleaseDate = model.ReleaseDate;
                 movie.Lenght = model.Lenght;
+                movie.WantToListen = model.WantToListen;
+                movie.Listened = model.Listened;
+
                 string uniqueFileName = null;
                 if (model.Photo != null)
                 {

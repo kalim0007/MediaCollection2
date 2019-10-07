@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain.Series;
 using MediaCollection2.Models.SeriesModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.SerieControllers
 {
+    [Authorize]
     public class SeriesController : Controller
     {
         private readonly MediaCollectionContext _context;

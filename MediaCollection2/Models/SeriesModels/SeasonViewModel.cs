@@ -10,6 +10,7 @@ namespace MediaCollection2.Models.SeriesModels
     {
         public int ID { get; set; }
         public int Nr { get; set; }
+        public int Rating { get; set; }
         public IFormFile Photo { get; set; }
         public string PhotoPath { get; set; }
         public string Serie { get; set; }

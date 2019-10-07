@@ -16,6 +16,8 @@ namespace MediaCollection2.Models
         public int Lenght { get; set; }
         public int DirectorID { get; set; }
         public int WriterID { get; set; }
+        public bool WantToListen { get; set; }
+        public bool Listened { get; set; }
         public string Director { get; set; }
         public IFormFile Photo { get; set; }
         public string PhotoPath { get; set; }

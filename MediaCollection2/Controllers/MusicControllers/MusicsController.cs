@@ -15,9 +15,11 @@ using MediaCollection2.Models.MusicModels.MusicGenre;
 using MediaCollection2.Models.MusicModels.MusicDirector;
 using MediaCollection2.Models.MusicModels.MusicWriter;
 using MediaCollection2.Models.MusicModels.Music;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class MusicsController : Controller
     {
         private readonly MediaCollectionContext _context;

@@ -10,9 +10,11 @@ using MediaCollection2.Domain.music;
 using Microsoft.AspNetCore.Hosting;
 using MediaCollection2.Models.MusicModels.MusicWriter;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
+    [Authorize]
     public class MusicWritersController : Controller
     {
         private readonly MediaCollectionContext _context;

@@ -9,16 +9,21 @@ using MediaCollection2.Data;
 using MediaCollection2.Domain;
 using MediaCollection2.Models.MoviePlaylist;
 using MediaCollection2.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class MoviePlaylistsController : Controller
     {
         private readonly MediaCollectionContext _context;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public MoviePlaylistsController(MediaCollectionContext context)
+        public MoviePlaylistsController(MediaCollectionContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: MoviePlaylists
@@ -77,9 +82,10 @@ namespace MediaCollection2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MoviePlaylistViewModel model)
         {
+            var userId = userManager.GetUserId(HttpContext.User);
             if (ModelState.IsValid)
             {
-                _context.Add(new MoviePlaylist() { ID = model.ID, Naam=model.Naam });
+                _context.Add(new MoviePlaylist() { ID = model.ID, Naam = model.Naam, UserId = userId }); ;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));

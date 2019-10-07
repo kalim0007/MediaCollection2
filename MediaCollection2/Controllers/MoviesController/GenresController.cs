@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using MediaCollection2.Data;
 using MediaCollection2.Domain;
 using MediaCollection2.Models.Genre;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class GenresController : Controller
     {
         private readonly MediaCollectionContext context;

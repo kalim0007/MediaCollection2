@@ -36,6 +36,20 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="WantToListen" /> @Html.DisplayNameFor(model => model.WantToListen)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Listened" /> @Html.DisplayNameFor(model => model.Listened)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>

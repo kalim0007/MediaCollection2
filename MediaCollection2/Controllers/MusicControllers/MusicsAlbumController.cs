@@ -11,9 +11,11 @@ using MediaCollection2.Models.MusicModels;
 using MediaCollection2.Models.MusicModels.MusicAlbum;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
+    [Authorize]
     public class MusicsAlbumController : Controller
     {
         private readonly MediaCollectionContext _context;

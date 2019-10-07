@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using MediaCollection2.Models.Users;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MediaCollection2.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
