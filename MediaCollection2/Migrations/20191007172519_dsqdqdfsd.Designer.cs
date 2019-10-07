@@ -4,14 +4,16 @@ using MediaCollection2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MediaCollection2.Migrations
 {
     [DbContext(typeof(MediaCollectionContext))]
-    partial class MediaCollectionContextModelSnapshot : ModelSnapshot
+    [Migration("20191007172519_dsqdqdfsd")]
+    partial class dsqdqdfsd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,17 +65,15 @@ namespace MediaCollection2.Migrations
 
                     b.Property<int>("Lenght");
 
+                    b.Property<bool>("Listened");
+
                     b.Property<string>("PhotoPath");
 
                     b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Titel");
 
-                    b.Property<bool>("WantToWatch");
-
-                    b.Property<bool>("Watched");
-
-                    b.Property<string>("YoutubeTrailer");
+                    b.Property<bool>("WantToListen");
 
                     b.HasKey("ID");
 
@@ -144,8 +144,6 @@ namespace MediaCollection2.Migrations
                     b.Property<string>("Titel");
 
                     b.Property<bool>("WantToListen");
-
-                    b.Property<string>("YoutubeTrailer");
 
                     b.HasKey("ID");
 
@@ -334,8 +332,6 @@ namespace MediaCollection2.Migrations
                     b.Property<int>("SerieID");
 
                     b.Property<string>("Titel");
-
-                    b.Property<string>("YoutubeTrailer");
 
                     b.HasKey("ID");
 

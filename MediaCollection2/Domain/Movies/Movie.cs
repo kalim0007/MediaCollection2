@@ -15,8 +15,9 @@ namespace MediaCollection2.Domain
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
         public string PhotoPath { get; set; }
-        public bool WantToListen { get; set; }
-        public bool Listened { get; set; }
+        public string YoutubeTrailer { get; set; }
+        public bool WantToWatch { get; set; }
+        public bool Watched { get; set; }
         public ICollection<Director> Directors { get; set; }
         public ICollection<Writer> Writers { get; set; }
         public ICollection<Genre> Genres { get; set; }

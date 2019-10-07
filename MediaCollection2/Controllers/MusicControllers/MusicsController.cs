@@ -146,7 +146,8 @@ namespace MediaCollection2.Controllers
                     PhotoPath = uniqueFileName,
                     Listened = model.Listened,
                     WantToListen = model.WantToListen,
-                    ReleaseDate = model.ReleaseDate
+                    ReleaseDate = model.ReleaseDate,
+                    YoutubeTrailer = model.YoutubeTrailer,
                 });
                 await _context.SaveChangesAsync();
             }
@@ -171,7 +172,8 @@ namespace MediaCollection2.Controllers
                 ReleaseDate = music.ReleaseDate,
                 Titel = music.Titel,
                 WantToListen = music.WantToListen,
-                Listened = music.Listened
+                Listened = music.Listened,
+                YoutubeTrailer = music.YoutubeTrailer
             };
             if (music == null)
             {
@@ -204,6 +206,7 @@ namespace MediaCollection2.Controllers
                 music.Titel = model.Titel;
                 music.WantToListen = model.WantToListen;
                 music.Listened = model.Listened;
+                music.YoutubeTrailer = model.YoutubeTrailer;
                 if (model.Photo != null)
                 {
                     music.PhotoPath = uniqueFileName;

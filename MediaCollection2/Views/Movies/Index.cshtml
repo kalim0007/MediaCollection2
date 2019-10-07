@@ -22,10 +22,10 @@
                 @Html.DisplayNameFor(model => model.PhotoPath)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WantToListen)
+                @Html.DisplayNameFor(model => model.WantToWatch)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Listened)
+                @Html.DisplayNameFor(model => model.Watched)
             </th>
             <th>
                 <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
@@ -54,10 +54,10 @@
                 <img class="IndexImg" src="@photoPath" asp-append-version="true" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WantToListen)
+                @Html.DisplayFor(modelItem => item.WantToWatch)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Listened)
+                @Html.DisplayFor(modelItem => item.Watched)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>

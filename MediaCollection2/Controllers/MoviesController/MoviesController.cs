@@ -52,8 +52,8 @@ namespace MediaCollection2.Areas.Movies
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
                     PhotoPath =movie.PhotoPath,
-                    WantToListen = movie.WantToListen,
-                    Listened = movie.Listened,
+                    WantToWatch = movie.WantToWatch,
+                    Watched = movie.WantToWatch,
                     
                 });
             }
@@ -101,8 +101,8 @@ namespace MediaCollection2.Areas.Movies
                 Directors = directors,
                 Writers = writers,
                 PhotoPath = movie.PhotoPath,
-                WantToListen = movie.WantToListen,
-                Listened = movie.Listened,
+                WantToWatch = movie.WantToWatch,
+                Watched = movie.WantToWatch,
             };
 
             foreach (var review in movie.Reviews)
@@ -152,8 +152,9 @@ namespace MediaCollection2.Areas.Movies
                     ReleaseDate = model.ReleaseDate,
                     Lenght = model.Lenght,
                     PhotoPath = uniqueFileName,
-                    WantToListen = model.WantToListen,
-                    Listened = model.Listened,
+                    WantToWatch = model.WantToWatch,
+                    Watched = model.Watched,
+                    YoutubeTrailer = model.YoutubeTrailer
                 }) ; 
                 context.SaveChanges();
             }
@@ -176,11 +177,12 @@ namespace MediaCollection2.Areas.Movies
             var model = new EditMovieViewModel()
             {
                 ID = movie.ID,
-                Titel =movie.Titel,
+                Titel = movie.Titel,
                 ReleaseDate = movie.ReleaseDate,
                 Lenght = movie.Lenght,
-                WantToListen = movie.WantToListen,
-                Listened = movie.Listened,
+                WantToWatch = movie.WantToWatch,
+                Watched = movie.Watched,
+                YoutubeTrailer = movie.YoutubeTrailer,
             };
             ViewBag.PlaylistID = new SelectList(context.MoviePlaylists, "ID", "Naam");
 
@@ -198,8 +200,9 @@ namespace MediaCollection2.Areas.Movies
                 movie.Titel = model.Titel;
                 movie.ReleaseDate = model.ReleaseDate;
                 movie.Lenght = model.Lenght;
-                movie.WantToListen = model.WantToListen;
-                movie.Listened = model.Listened;
+                movie.WantToWatch = model.WantToWatch;
+                movie.Watched = model.Watched;
+                movie.YoutubeTrailer = model.YoutubeTrailer;
 
                 string uniqueFileName = null;
                 if (model.Photo != null)

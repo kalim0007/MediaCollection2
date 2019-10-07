@@ -13,6 +13,7 @@ namespace MediaCollection2.Models.SeriesModels
         public int Rating { get; set; }
         public IFormFile Photo { get; set; }
         public string PhotoPath { get; set; }
+        public string YoutubeTrailer { get; set; }
         public string Serie { get; set; }
         public string Titel { get; set; }
         public int SerieID { get; set; }

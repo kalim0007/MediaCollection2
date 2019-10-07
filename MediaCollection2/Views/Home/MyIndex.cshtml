@@ -8,62 +8,97 @@
     <title>Home</title>
 </head>
 <body>
-    @if (Model.Movies != null)
-    {
-        <div >
-            @foreach (var movie in Model.Movies)
+    <div class="container">
+        @*Movies list  *@
+        <div class="row">
+            @if (Model.Movies.Count != 0)
             {
-                var photoPath = "~/Images/" + (movie.PhotoPath ?? "download.jfif");
-
-                <>
-                   
-                    <td colspan="3"><a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.ID"> <img src="@photoPath" asp-append-version="true"  class="TopImg" /></a> </td>
-                </>
-                <tr>
-                    <td>
-                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.ID">@movie.Titel</a>
-                    </td>
-                    <td>@movie.Lenght</td>
-                    @if (@movie.Rating != 0)
-                    {
-                        <td>@movie.Rating</td>
-
-                    }
-                    else
-                    {
-                        <td>No Rating </td>
-                    }
-                    <td></td>
-                </tr>
-                @*<tr>
-                        <th>Titel</th>
-                        <th>Length</th>
-                        <th>Rating</th>
-                        <th>Photo</th>
-                    </tr>
-                    @foreach (var movie in Model.Movies)
-                    {
+                <h1>Top Movies </h1>
+                foreach (var movie in Model.Movies)
+                {
                     var photoPath = "~/Images/" + (movie.PhotoPath ?? "download.jfif");
-
-                        <tr>
-                            <td>@movie.Titel</td>
-                            <td>@movie.Lenght</td>
-                            @if (@movie.Rating != 0)
-                            {
-                                <td>@movie.Rating</td>
-
-                            }
-                            else
-                            {
-                                <td>No Rating </td>
-                            }
-                            <td><img src="@photoPath" asp-append-version="true" class="IndexImg" /></td>
-                        </tr>*@
+                    <div class="col-sm-2 d-flex justify-content-center">
+                        <div class="card">
+                            <div class="card-img"><a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.ID"> <img src="@photoPath" asp-append-version="true" class="TopImg" /></a></div>
+                            <div class="card-title">
+                                <h3><a style="color:black" asp-action="Details" asp-controller="Movies" asp-route-id="@movie.ID">@Html.DisplayNameFor(modelItem => movie.Titel):@Html.DisplayFor(modelItem => movie.Titel)</a></h3>
+                            </div>
+                            <div class="card-text">
+                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => movie.Rating)/10
+                            </div>
+                            <div class="card-text">
+                                <b> @Html.DisplayNameFor(modelItem => movie.ReleaseDate)</b>:@Html.DisplayFor(modelItem => movie.ReleaseDate)
+                            </div>
+                            <div class="card-text">
+                                <a href="@Html.DisplayFor(modelItem => movie.YoutubeTrailer)"> <i class="far fa-play-circle"></i>  </a>
+                            </div>
+                        </div>
+                    </div>
+                }
             }
+
+        </div><hr /><hr />
+        @*music list  *@
+
+        <div class="row">
+            @if (Model.Musics.Count != 0)
+            {
+                <h1>Top Musics </h1>
+                foreach (var mu in Model.Musics)
+                {
+                    var photoPath = "~/Images/" + (mu.PhotoPath ?? "download.jfif");
+                    <div class="col-sm-2 d-flex justify-content-center">
+                        <div class="card">
+                            <div class="card-img"><a asp-action="Details" asp-controller="Musics" asp-route-id="@mu.ID"> <img src="@photoPath" asp-append-version="true" class="TopImg" /></a></div>
+                            <div class="card-title">
+                                <h3><a style="color:black" asp-action="Details" asp-controller="Movies" asp-route-id="@mu.ID">@Html.DisplayNameFor(modelItem => mu.Titel):@Html.DisplayFor(modelItem => mu.Titel)</a></h3>
+                            </div>
+                            <div class="card-text">
+                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => mu.Rating)/10
+                            </div>
+                            <div class="card-text">
+                                <b> @Html.DisplayNameFor(modelItem => mu.ReleaseDate)</b>:@Html.DisplayFor(modelItem => mu.ReleaseDate)
+                            </div>
+                            <div class="card-text">
+                                <a href="@Html.DisplayFor(modelItem => mu.YoutubeTrailer)"> <i class="far fa-play-circle"></i>  </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
         </div>
 
-    }
+        @*Series list  *@
 
+        <div class="row">
+            @if (Model.Series.Count != 0)
+            {
+                <h1>Top Series </h1>
+                foreach (var s in Model.Series)
+                {
+                    var photoPath = "~/Images/" + (s.PhotoPath ?? "download.jfif");
+                    <div class="col-sm-2 d-flex justify-content-center">
+                        <div class="card">
+                            <div class="card-img"><a asp-action="Details" asp-controller="Seasons" asp-route-id="@s.SeasonID"> <img src="@photoPath" asp-append-version="true" class="TopImg" /></a></div>
+                            <div class="card-title">
+                                <h3><a style="color:black" asp-action="Details" asp-controller="Seasons" asp-route-id="@s.SeasonID">@Html.DisplayNameFor(modelItem => s.Titel):@Html.DisplayFor(modelItem => s.Titel)</a></h3>
+                            </div>
+                            <div class="card-text">
+                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => s.Rating)/10
+                            </div>
+                            <div class="card-text">
+                                <b> @Html.DisplayNameFor(modelItem => s.SeasonNr)</b>:@Html.DisplayFor(modelItem => s.SeasonNr)
+                            </div>
+                            <div class="card-text">
+                                <a href="@Html.DisplayFor(modelItem => s.YoutubeTrailer)"> <i class="far fa-play-circle"></i>  </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
 
 </body>
 </html>

@@ -21,7 +21,9 @@ namespace MediaCollection2.Models.Movies
         public string Director { get; set; }
         public string Writer { get; set; }
         public string MoviePlaylistsID { get; set; }
-        public bool WantToListen { get; set; }
-        public bool Listened { get; set; }
+        public bool WantToWatch { get; set; }
+        public bool Watched { get; set; }
+        public string Comment { get; set; }
+        public string YoutubeTrailer { get; set; }
     }
 }

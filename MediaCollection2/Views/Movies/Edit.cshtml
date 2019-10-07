@@ -24,6 +24,11 @@
                 <span asp-validation-for="Titel" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="YoutubeTrailer" class="control-label"></label>
+                <input asp-for="YoutubeTrailer" class="form-control" />
+                <span asp-validation-for="YoutubeTrailer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ReleaseDate" class="control-label"></label>
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
@@ -47,14 +52,14 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="WantToListen" /> @Html.DisplayNameFor(model => model.WantToListen)
+                        <input asp-for="WantToWatch" /> @Html.DisplayNameFor(model => model.WantToWatch)
                     </label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Listened" /> @Html.DisplayNameFor(model => model.Listened)
+                        <input asp-for="Watched" /> @Html.DisplayNameFor(model => model.Watched)
                     </label>
                 </div>
             </div>

@@ -27,9 +27,10 @@ namespace MediaCollection2.Controllers
             List<ListMovieViewModel> Movies = new List<ListMovieViewModel>();
             List<MusicViewModels> Musics = new List<MusicViewModels>();
             List<SerieViewModel> Series = new List<SerieViewModel>();
-            var movies = context.Movies.Include(m=>m.Reviews).ToList();
+            //movies list
+            var movies = context.Movies.Include(m => m.Reviews).ToList();
             movies.OrderBy(m => m.Reviews.Select(r => r.Rating));
-            if (movies.Count()<5)
+            if (movies.Count() < 5)
             {
                 for (int i = 0; i < movies.Count(); i++)
                 {
@@ -46,7 +47,7 @@ namespace MediaCollection2.Controllers
                         movieRating = totalRating / reviewCounter;
                     }
 
-                    Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, });
+                    Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
                 }
             }
             else
@@ -66,11 +67,72 @@ namespace MediaCollection2.Controllers
                         movieRating = totalRating / reviewCounter;
                     }
 
-                    Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, });
+                    Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
                 }
             }
-            
-            var model = new MyIndexViewModel() { Movies = Movies };
+            //musiclist
+            var musics = context.Musics.Include(m => m.Reviews).ToList();
+            musics.OrderBy(m => m.Reviews.Select(r => r.Rating));
+            if (musics.Count() < 5)
+            {
+                for (int i = 0; i < musics.Count(); i++)
+                {
+                    var musicrating = 0;
+                    var totalRating = 0;
+                    var reviewCounter = 0;
+                    if (musics[i].Reviews.Count != 0)
+                    {
+                        foreach (var review in musics[i].Reviews)
+                        {
+                            reviewCounter++;
+                            totalRating += review.Rating;
+                        }
+                        musicrating = totalRating / reviewCounter;
+                    }
+
+                    Musics.Add(new MusicViewModels() { Titel = musics[i].Titel, Rating = musicrating, PhotoPath = musics[i].PhotoPath, Lenght = musics[i].Lenght, ID = musics[i].ID, YoutubeTrailer = musics[i].YoutubeTrailer, ReleaseDate = musics[i].ReleaseDate, });
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    var musicRating = 0;
+                    var totalRating = 0;
+                    var reviewCounter = 0;
+                    if (musics[i].Reviews.Count != 0)
+                    {
+                        foreach (var review in musics[i].Reviews)
+                        {
+                            reviewCounter++;
+                            totalRating += review.Rating;
+                        }
+                        musicRating = totalRating / reviewCounter;
+                    }
+
+                    Musics.Add(new MusicViewModels() { Titel = musics[i].Titel, Rating = musicRating, PhotoPath = musics[i].PhotoPath, Lenght = musics[i].Lenght, ID = musics[i].ID, YoutubeTrailer = musics[i].YoutubeTrailer, ReleaseDate = musics[i].ReleaseDate, });
+                }
+            }
+
+
+            //Series List
+            var series = context.Seasons.Include(m => m.Serie).ToList();
+            series.OrderBy(r => r.Rating);
+            if (series.Count() < 5)
+            {
+                for (int i = 0; i < series.Count(); i++)
+                {
+                    Series.Add(new SerieViewModel() { Titel = series[i].Titel, Rating = series[i].Rating, PhotoPath = series[i].PhotoPath, SeasonID = series[i].ID, YoutubeTrailer = series[i].YoutubeTrailer, SeasonNr = series[i].Nr });
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Series.Add(new SerieViewModel() { Titel = series[i].Titel, Rating = series[i].Rating, PhotoPath = series[i].PhotoPath, SeasonID = series[i].ID, YoutubeTrailer = series[i].YoutubeTrailer, SeasonNr = series[i].Nr });
+                }
+            }
+            var model = new MyIndexViewModel() { Movies = Movies, Musics = Musics, Series = Series };
             return View(model);
         }
         public IActionResult Index()

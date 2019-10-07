@@ -87,7 +87,7 @@ namespace MediaCollection2.Controllers.SerieControllers
                     string filePath = Path.Combine(UploadsFolder, uniqueFileName);
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
-                _context.Add(new Season() { Titel = model.Titel, Nr = model.Nr, PhotoPath = uniqueFileName, SerieID = model.SerieID, Rating = model.Rating });
+                _context.Add(new Season() { YoutubeTrailer = model.YoutubeTrailer, Titel = model.Titel, Nr = model.Nr, PhotoPath = uniqueFileName, SerieID = model.SerieID, Rating = model.Rating });
                 await _context.SaveChangesAsync();
             }
 
@@ -108,7 +108,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             {
                 return NotFound();
             }
-            var model = new SeasonViewModel() { ID = season.ID, Titel = season.Titel, SerieID = season.Serie.ID, PhotoPath = season.PhotoPath, Rating = season.Rating };
+            var model = new SeasonViewModel() { ID = season.ID, YoutubeTrailer = season.YoutubeTrailer, Titel = season.Titel, SerieID = season.Serie.ID, PhotoPath = season.PhotoPath, Rating = season.Rating, Nr = season.Nr };
             ViewData["SerieID"] = new SelectList(_context.Series, "ID", "Titel");
             return View(model);
         }
@@ -135,6 +135,7 @@ namespace MediaCollection2.Controllers.SerieControllers
                 season.Nr = model.Nr;
                 season.SerieID = model.SerieID;
                 season.Rating = model.Rating;
+                season.YoutubeTrailer = model.YoutubeTrailer;
                 if (model.Photo!=null)
                 {
                     season.PhotoPath = uniqueFileName;

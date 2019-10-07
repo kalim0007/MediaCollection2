@@ -13,8 +13,8 @@ namespace MediaCollection2.Models
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }
-        public bool WantToListen { get; set; }
-        public bool Listened { get; set; }
+        public bool WantToWatch { get; set; }
+        public bool Watched { get; set; }
         public int DirectorID { get; set; }
         public int WriterID { get; set; }
         public string Director { get; set; }

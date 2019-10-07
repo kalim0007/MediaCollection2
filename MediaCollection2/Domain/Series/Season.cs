@@ -11,6 +11,7 @@ namespace MediaCollection2.Domain.Series
         public string Titel { get; set; }
         public int Nr { get; set; }
         public string PhotoPath { get; set; }
+        public string YoutubeTrailer { get; set; }
         public int SerieID { get; set; }
         public int Rating { get; set; }
         public Serie Serie { get; set; }
