@@ -18,6 +18,7 @@ using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using MediaCollection2.Models.MoviesModels.Movies;
 
 namespace MediaCollection2.Areas.Movies
 {
@@ -31,39 +32,51 @@ namespace MediaCollection2.Areas.Movies
         public decimal teller { get; set; }
         public decimal totalrating { get; set; }
         public decimal avgrating { get; set; }
-        public MoviesController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment,UserManager<IdentityUser> userManager)
+        public MoviesController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment, UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.hostingEnvironment = hostingEnvironment;
             this.userManager = userManager;
         }
 
-        // GET: Movies
         public ActionResult Index()
         {
-            var model = new List<ListMovieViewModel>();
+            var userId = userManager.GetUserId(HttpContext.User);
+            var model = new ListMovieViewModel();
+            model.Movies = new List<MovieViewModel>();
             var movies = context.Movies;
+            var UserPlaylists = context.MoviePlaylists.Include(p=>p.Movies).Where(p => p.UserId == userId).ToList();
             foreach (var movie in movies)
             {
-                model.Add(new ListMovieViewModel()
+                var selectlistitems = new List<SelectListItem>();
+
+                foreach (var playlist in UserPlaylists)
+                {
+                    if (!context.MoviePlaylistCombs.Any(p=>p.MovieID==movie.ID&& p.MoviePlaylistID==playlist.ID))
+                    {
+                        selectlistitems.Add(new SelectListItem() { Value = playlist.ID.ToString(), Text = playlist.Naam });
+                    }
+                }
+                model.Movies.Add(new MovieViewModel()
                 {
                     ID = movie.ID,
-                    Titel =movie.Titel,
+                    Titel = movie.Titel,
                     ReleaseDate = movie.ReleaseDate,
                     Lenght = movie.Lenght,
-                    PhotoPath =movie.PhotoPath,
+                    PhotoPath = movie.PhotoPath,
                     WantToWatch = movie.WantToWatch,
                     Watched = movie.WantToWatch,
-                    
+                    Playlist = selectlistitems,
                 });
             }
+            ViewData["Playlist"] = new SelectList(context.MoviePlaylists, "ID", "Naam");
             return View(model);
         }
 
-        // GET: Movies/Details/5
         public ActionResult Details(int id)
         {
-            var movie = context.Movies.Include(m=>m.Reviews).Include(m=>m.Genres).Include(m => m.Directors).Include(m => m.Writers).FirstOrDefault(m=>m.ID==id);
+            var userId = userManager.GetUserName(HttpContext.User);
+            var movie = context.Movies.Include(m => m.Reviews).Include(m => m.Genres).Include(m => m.Directors).Include(m => m.Writers).FirstOrDefault(m => m.ID == id);
             List<MovieReviewDetailsViewModel> Reviews = new List<MovieReviewDetailsViewModel>();
             List<MovieGenreCreateViewModel> genres = new List<MovieGenreCreateViewModel>();
             List<MovieDirectorCreateViewModel> directors = new List<MovieDirectorCreateViewModel>();
@@ -84,11 +97,11 @@ namespace MediaCollection2.Areas.Movies
             }
             foreach (var director in movie.Directors)
             {
-                directors.Add(new MovieDirectorCreateViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, Movie=director.Movies.Titel });
+                directors.Add(new MovieDirectorCreateViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, Movie = director.Movies.Titel , ID=director.ID });
             }
             foreach (var writer in movie.Writers)
             {
-                writers.Add(new MovieWriterCreateViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, Movie = writer.Movies.Titel });
+                writers.Add(new MovieWriterCreateViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, Movie = writer.Movies.Titel, ID = writer.ID });
             }
             var model = new DetailsMovieViewModel()
             {
@@ -102,7 +115,9 @@ namespace MediaCollection2.Areas.Movies
                 Writers = writers,
                 PhotoPath = movie.PhotoPath,
                 WantToWatch = movie.WantToWatch,
-                Watched = movie.WantToWatch,
+                Watched = movie.Watched,
+                Youtube = movie.YoutubeTrailer,
+                User = userId,
             };
 
             foreach (var review in movie.Reviews)
@@ -119,18 +134,22 @@ namespace MediaCollection2.Areas.Movies
             {
                 return NotFound();
             }
-            
+
             return View(model);
         }
 
-        // GET: Movies/Create
+        [HttpPost]
+        public ActionResult MovieToPlaylist(int MovieID, ListMovieViewModel model)
+        {
+            context.MoviePlaylistCombs.Add(new MoviePlaylistComb() { MovieID = MovieID, MoviePlaylistID = model.Playlist });
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
         public ActionResult Create()
         {
-            ViewData["PlaylistID"] = new SelectList(context.MoviePlaylists, "ID", "Titel");
             return View();
         }
 
-        // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateMovieViewModel model)
@@ -139,10 +158,10 @@ namespace MediaCollection2.Areas.Movies
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if (model.Photo!=null)
+                if (model.Photo != null)
                 {
-                    string UploadsFolder =  Path.Combine(hostingEnvironment.WebRootPath, "images");
-                     uniqueFileName = GetUniqueFileName(model.Photo.FileName);
+                    string UploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = GetUniqueFileName(model.Photo.FileName);
                     string filePath = Path.Combine(UploadsFolder, uniqueFileName);
                     model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
@@ -155,14 +174,13 @@ namespace MediaCollection2.Areas.Movies
                     WantToWatch = model.WantToWatch,
                     Watched = model.Watched,
                     YoutubeTrailer = model.YoutubeTrailer
-                }) ; 
+                });
                 context.SaveChanges();
             }
             return RedirectToAction(nameof(Index));
 
         }
 
-        // GET: Movies/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -170,7 +188,7 @@ namespace MediaCollection2.Areas.Movies
                 return NotFound();
             }
             var movie = context.Movies.Find(id);
-            if (movie==null)
+            if (movie == null)
             {
                 return NotFound();
             }
@@ -189,7 +207,6 @@ namespace MediaCollection2.Areas.Movies
             return View(model);
         }
 
-        // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, EditMovieViewModel model)
@@ -215,13 +232,11 @@ namespace MediaCollection2.Areas.Movies
                 }
                 context.Movies.Update(movie);
                 context.SaveChanges();
-                context.MoviePlaylistCombs.Add(new MoviePlaylistComb() { MovieID = model.ID, MoviePlaylistID = model.PlaylistID });
-                context.SaveChanges();
+
             }
-                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Movies/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -237,7 +252,6 @@ namespace MediaCollection2.Areas.Movies
             return View(model);
         }
 
-        // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

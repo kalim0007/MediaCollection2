@@ -1,31 +1,31 @@
-﻿@model IEnumerable<MediaCollection2.Models.Movies.ListMovieViewModel>
-@{ 
-     Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+﻿@model MediaCollection2.Models.Movies.ListMovieViewModel
+@{
+    Layout = "~/Views/Shared/_MoviesLayout.cshtml";
 }
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ID)
+                ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Titel)
+                Titel
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                ReleaseDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lenght)
+                Lenght
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhotoPath)
+                PhotoPath
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WantToWatch)
+                WantToWatch
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Watched)
+                Watched
             </th>
             <th>
                 <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
@@ -33,38 +33,50 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Movies)
         {
             var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
 
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lenght)
-            </td>
-            <td>
-                <img class="IndexImg" src="@photoPath" asp-append-version="true" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WantToWatch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Watched)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>
-                <a asp-action="Details" asp-route-id="@item.ID"> <i class="fas fa-info"></i> Detail</a>
-                <a asp-action="Delete" asp-route-id="@item.ID"> <i class="fas fa-trash-alt"></i> Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lenght)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-Id="@item.ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WantToWatch)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Watched)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID"> <i class="fas fa-info"></i> Detail</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID"> <i class="fas fa-trash-alt"></i> Delete</a>
+
+
+                    <form asp-action="MovieToPlaylist" asp-controller="Movies" method="post" asp-route-MovieID="@item.ID" >
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Playlist" class="control-label"></label>
+                            <select asp-for="Playlist" class="form-control" asp-items="@item.Playlist"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add To Playlist" class="btn btn-default" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

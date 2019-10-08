@@ -1,16 +1,14 @@
-﻿using MediaCollection2.Models.MoviesModels.Movies;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaCollection2.Models.Movies
+namespace MediaCollection2.Models.MoviesModels.Movies
 {
-    public class ListMovieViewModel
+    public class MovieViewModel
     {
-        public List<MovieViewModel> Movies { get; set; }
         public int ID { get; set; }
         public string Titel { get; set; }
         [DataType(DataType.Date)]
@@ -27,6 +25,6 @@ namespace MediaCollection2.Models.Movies
         public bool Watched { get; set; }
         public string Comment { get; set; }
         public string YoutubeTrailer { get; set; }
-        public int Playlist { get; set; }
+        public List<SelectListItem> Playlist { get; set; }
     }
 }

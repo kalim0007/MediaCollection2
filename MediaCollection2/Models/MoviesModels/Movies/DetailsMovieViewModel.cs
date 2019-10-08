@@ -21,6 +21,8 @@ namespace MediaCollection2.Models
         public bool WantToWatch { get; set; }
         public bool Watched { get; set; }
         public string Playlist { get; set; }
+        public string Youtube { get; set; }
+        public string User { get; set; }
         public List<MovieReviewDetailsViewModel> Reviews { get; set; }
         public List<MovieGenreCreateViewModel> Genres { get; set; }
         public List<MovieWriterCreateViewModel> Writers { get; set; }

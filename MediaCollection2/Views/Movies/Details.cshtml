@@ -1,70 +1,108 @@
 ﻿@model MediaCollection2.Models.DetailsMovieViewModel
 
 @{
-     Layout = "~/Views/Shared/_MoviesLayout.cshtml";
+    Layout = "~/Views/Shared/_MoviesLayout.cshtml";
 
     ViewData["Title"] = "Details";
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "download.jfif");
 }
 
-<h2>Details</h2>
 
-<div>
-    <table class="table">
-        <tr>
-            <th>
-                <img class="card-img-top img-thumbnail" src="@photoPath" asp-append-version="true" />
-            </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Titel)
+
+    <table class="table"  >
+        <tr>
+            <th colspan="3" style="text-align:center" >
+                <a href="@Model.Youtube"><img class="center" width="500" height="500"  src="@photoPath" asp-append-version="true" /></a>
             </th>
-            <td>
-                @Html.DisplayFor(model => model.Titel)
-            </td>
         </tr>
         <tr>
+            <td colspan="2"><h1>@Html.DisplayFor(model => model.Titel)</h1></td>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @if (Model.Watched == false)
+                {
+                    <i class="far fa-eye fa-5x"></i>
+                }
+                else
+                {
+                    <i class="fas fa-eye fa-5x"></i>
+                }
             </th>
-            <td>
-                @Html.DisplayFor(model => model.ReleaseDate)
-            </td>
-            <th></th>
         </tr>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Lenght)
+            <th colspan="2" style="vertical-align:central">
+                @Html.DisplayFor(model => model.Lenght) Mins
             </th>
-            <td>
-                @Html.DisplayFor(model => model.Lenght)
-            </td>
-            <th></th>
+            <th>
+                Release Date: @Html.DisplayFor(model => model.ReleaseDate)
+            </th>
         </tr>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WantToWatch)
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.WantToWatch)
-            </td>
-            <th></th>
+
         </tr>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Watched)
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.Watched)
-            </td>
-            <th></th>
+            @if (Model.Genres.Count() != 0)
+            {
+                <th colspan="3">
+                    @{ var lastGenre = Model.Genres.Last(); }
+                    Genre: @foreach (var genre in Model.Genres)
+                    {
+                        if (genre.Equals(lastGenre))
+                        {
+                            <label>@genre.Naam</label>
+                        }
+                        else
+                        {
+                            <label>@genre.Naam, </label>
+                        }
+                    }
+                </th>
+            }
         </tr>
-        <tr></tr>
-    </table>
-    <div>
+        <tr>
+            @if (Model.Directors.Count() != 0)
+            {
+                <th colspan="3">
+                    @{ var last = Model.Directors.Last(); }
+                    Director: @foreach (var director in Model.Directors)
+                    {
+                        if (director.Equals(last))
+                        {
+                            <a asp-action="Details" asp-controller="Directors" asp-route-Id="@director.ID">@director.Name  </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Details" asp-controller="Directors" asp-route-Id="@director.ID">@director.Name,  </a>
+                        }
+                    }
+                </th>
+            }
+
+        </tr>
+        <tr>
+            @if (Model.Writers.Count() != 0)
+            {
+                <th colspan="3">
+                    @{ var lastWriter = Model.Writers.Last(); }
+                    Writers: @foreach (var writer in Model.Writers)
+                    {
+                        if (writer.Equals(lastWriter))
+                        {
+                            <a asp-action="Details" asp-controller="Writers" asp-route-Id="@writer.ID">@writer.Name  </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Details" asp-controller="Writers" asp-route-Id="@writer.ID">@writer.Name,  </a>
+                        }
+                    }
+                </th>
+            }
+
+        </tr>
+    </table >
         @if (Model.Reviews.Count() != 0)
         {
-            <table class="table">
+            <table class="table" >
 
 
                 <tr>
@@ -77,7 +115,10 @@
                     <tr>
                         <td></td>
                         <td>
-                            @Html.DisplayFor(model => review.Rating)
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(model => review.Comment)
@@ -87,109 +128,15 @@
                 <tr>
                     <th>Average:</th>
                     <td>
-                        @ViewBag.avg
+                        <i class="fas fa-star"></i> @ViewBag.avg/10
                     </td>
                     <td></td>
                 </tr>
 
-            </table>
-        }
-
-    </div>
-    <div>
-        @if (Model.Genres.Count() != 0)
-        {
-            <table class="table">
-
-
-                <tr>
-                    <th>Genre</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var review in Model.Genres)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => review.Naam)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
 
             </table>
         }
 
-    </div>
-    <div>
-        @if (Model.Writers.Count() != 0)
-        {
-            <table class="table">
-
-
-                <tr>
-                    <th>Writers</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var writer in Model.Writers)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => writer.Name)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
-        }
-
-    </div>
-    <div>
-        @if (Model.Directors.Count() != 0)
-        {
-            <table class="table">
-
-
-                <tr>
-                    <th>Directors</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var director in Model.Directors)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => director.Name)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
-        }
-
-    </div>
-</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID"><i class="fas fa-edit"></i>Edit</a> |
     <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
