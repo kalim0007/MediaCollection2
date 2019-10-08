@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MediaCollection2.Models.MusicModels.MusicViewModels>
+﻿@model MediaCollection2.Models.MusicModels.MusicPlaylist.MusicListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,43 +14,58 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Titel)
+                Titel
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                ReleaseDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lenght)
+                Lenght
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhotoPath)
+                PhotoPath
             </th>
-            <th></th>
+            <th>
+                <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-    var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lenght)
-            </td>
-            <td>
-                <img class="IndexImg" src="@photoPath" asp-append-version="true" />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Musics)
+        {
+            var photoPath = "~/Images/" + (item.PhotoPath ?? "download.jfif");
+
+            <tr>
+                <td>
+                    <a asp-action="Detail" asp-route-Id="@item.ID"> @Html.DisplayFor(modelItem => item.Titel)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lenght)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-Id="@item.ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID"> <i class="fas fa-info"></i> Detail</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID"> <i class="fas fa-trash-alt"></i> Delete</a>
+
+
+                    <form asp-action="MusicToPlaylist" asp-controller="Musics" method="post" asp-route-MusicID="@item.ID">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Playlist" class="control-label"></label>
+                            <select asp-for="Playlist" class="form-control" asp-items="@item.Playlist"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add To Playlist" class="btn btn-default" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

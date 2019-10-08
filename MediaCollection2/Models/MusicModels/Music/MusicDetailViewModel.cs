@@ -13,6 +13,9 @@ namespace MediaCollection2.Models.MusicModels.Music
     {
         public int ID { get; set; }
         public string Titel { get; set; }
+        public string Youtube { get; set; }
+        public bool Listened { get; set; }
+        public bool WantToListen { get; set; }
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Lenght { get; set; }

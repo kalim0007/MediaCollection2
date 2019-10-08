@@ -8,170 +8,136 @@
 
 <h2>Details</h2>
 
-<div>
-    <table class="table">
-        <tr>
-            <th>
-                <img class="card-img-top img-thumbnail" src="@photoPath" asp-append-version="true" />
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Titel)
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.Titel)
-            </td>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.ReleaseDate)
-            </td>
-            <th></th>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Lenght)
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.Lenght)
-            </td>
-            <th></th>
-        </tr>
-        <tr></tr>
-    </table>
-    <div>
-        @if (Model.Reviews.Count() != 0)
-        {
-            <table class="table">
-
-
-                <tr>
-                    <th>Review</th>
-                    <th>Rating</th>
-                    <th>Comment</th>
-                </tr>
-                @foreach (var review in Model.Reviews)
-                {
-                    <tr>
-                        <td></td>
-                        <td>
-                            @Html.DisplayFor(model => review.Rating)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => review.Comment)
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <th>Average:</th>
-                    <td>
-                        @ViewBag.avg
-                    </td>
-                    <td></td>
-                </tr>
-
-            </table>
-        }
-
-    </div>
-    <div>
+<table class="table">
+    <tr>
+        <th colspan="3" style="text-align:center">
+            <a href="@Model.Youtube"><img class="center" width="500" height="500" src="@photoPath" asp-append-version="true" /></a>
+        </th>
+    </tr>
+    <tr>
+        <td colspan="2"><h1>@Html.DisplayFor(model => model.Titel)</h1></td>
+        <th>
+            @if (Model.Listened == false)
+            {
+                <i class="fas fa-volume-up fa-5x"></i>
+            }
+            else
+            {
+                <i class="fas fa-volume-mute fa-5x"></i>
+            }
+        </th>
+    </tr>
+    <tr>
+        <th colspan="2" style="vertical-align:central">
+            @Html.DisplayFor(model => model.Lenght) Mins
+        </th>
+        <th>
+            Release Date: @Html.DisplayFor(model => model.ReleaseDate)
+        </th>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
         @if (Model.Genres.Count() != 0)
         {
-            <table class="table">
-
-
-                <tr>
-                    <th>Genre</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var review in Model.Genres)
+            <th colspan="3">
+                @{ var lastGenre = Model.Genres.Last(); }
+                Genre: @foreach (var genre in Model.Genres)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => review.Naam)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    if (genre.Equals(lastGenre))
+                    {
+                        <label>@genre.Naam</label>
+                    }
+                    else
+                    {
+                        <label>@genre.Naam, </label>
+                    }
                 }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
+            </th>
         }
-
-    </div>
-    <div>
-        @if (Model.Writers.Count() != 0)
-        {
-            <table class="table">
-
-
-                <tr>
-                    <th>Writers</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var writer in Model.Writers)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => writer.Name)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
-        }
-
-    </div>
-    <div>
+    </tr>
+    <tr>
         @if (Model.Directors.Count() != 0)
         {
-            <table class="table">
-
-
-                <tr>
-                    <th>Directors</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var director in Model.Directors)
+            <th colspan="3">
+                @{ var last = Model.Directors.Last(); }
+                Director: @foreach (var director in Model.Directors)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => director.Name)
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    if (director.Equals(last))
+                    {
+                        <a asp-action="Details" asp-controller="Directors" asp-route-Id="@director.ID">@director.Name  </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-controller="Directors" asp-route-Id="@director.ID">@director.Name,  </a>
+                    }
                 }
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
+            </th>
         }
 
-    </div>
-</div>
+    </tr>
+    <tr>
+        @if (Model.Writers.Count() != 0)
+        {
+            <th colspan="3">
+                @{ var lastWriter = Model.Writers.Last(); }
+                Writers: @foreach (var writer in Model.Writers)
+                {
+                    if (writer.Equals(lastWriter))
+                    {
+                        <a asp-action="Details" asp-controller="Writers" asp-route-Id="@writer.ID">@writer.Name  </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-controller="Writers" asp-route-Id="@writer.ID">@writer.Name,  </a>
+                    }
+                }
+            </th>
+        }
+
+    </tr>
+</table>
+@if (Model.Reviews.Count() != 0)
+{
+    <table class="table">
+
+
+        <tr>
+            <th>Review</th>
+            <th>Rating</th>
+            <th>Comment</th>
+        </tr>
+        @foreach (var review in Model.Reviews)
+        {
+            <tr>
+                <td></td>
+                <td>
+                    @for (int i = 0; i < review.Rating; i++)
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(model => review.Comment)
+                </td>
+            </tr>
+        }
+        <tr>
+            <th>Average:</th>
+            <td>
+                @for (int i = 0; i < @ViewBag.avg; i++)
+                {
+                    <i class="fas fa-star"></i>
+                }
+            </td>
+            <td></td>
+        </tr>
+
+
+    </table>
+}
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID"><i class="fas fa-edit"></i>Edit</a> |
-    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+    <a asp-action="Index"> <i class="fas fa-back"></i> Movies List</a>
 </div>

@@ -28,7 +28,10 @@
                                 <h3><a style="color:black" asp-action="Details" asp-controller="Movies" asp-route-id="@movie.ID">@Html.DisplayFor(modelItem => movie.Titel)</a></h3>
                             </div>
                             <div class="card-text">
-                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => movie.Rating)/10
+                                @for (int i = 0; i < movie.Rating; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
                             </div>
                             <div class="card-text">
                                 <b> @Html.DisplayNameFor(modelItem => movie.ReleaseDate)</b>:@Html.DisplayFor(modelItem => movie.ReleaseDate)
@@ -60,7 +63,10 @@
                                 <h3><a style="color:black" asp-action="Details" asp-controller="Movies" asp-route-id="@mu.ID">@Html.DisplayFor(modelItem => mu.Titel)</a></h3>
                             </div>
                             <div class="card-text">
-                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => mu.Rating)/10
+                                @for (int i = 0; i < mu.Rating; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
                             </div>
                             <div class="card-text">
                                 <b> @Html.DisplayNameFor(modelItem => mu.ReleaseDate)</b>:@Html.DisplayFor(modelItem => mu.ReleaseDate)
@@ -92,7 +98,10 @@
                                 <h3><a style="color:black" asp-action="Details" asp-controller="Seasons" asp-route-id="@s.SeasonID">@Html.DisplayFor(modelItem => s.Titel)</a></h3>
                             </div>
                             <div class="card-text">
-                                <i class="far fa-star"></i>@Html.DisplayFor(modelItem => s.Rating)/10
+                                @for (int i = 0; i < s.Rating; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
                             </div>
                             <div class="card-text">
                                 <b> @Html.DisplayNameFor(modelItem => s.SeasonNr)</b>:@Html.DisplayFor(modelItem => s.SeasonNr)

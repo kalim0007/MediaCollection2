@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.SerieControllers
 {
-    [Authorize]
     public class SeriesController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -36,6 +35,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         }
 
         // GET: Series/Details/5
+    [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -59,6 +59,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         }
 
         // GET: Series/Create
+    [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -69,6 +70,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(SerieViewModel model)
         {
             if (ModelState.IsValid)
@@ -80,6 +82,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         }
 
         // GET: Series/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,6 +104,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(SerieViewModel model)
         {
             if (ModelState.IsValid)
@@ -113,6 +117,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             return RedirectToAction(nameof(Index));
         }
 
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

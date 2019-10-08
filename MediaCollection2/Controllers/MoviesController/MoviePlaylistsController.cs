@@ -54,7 +54,8 @@ namespace MediaCollection2.Controllers
             List<DeleteMovieViewModel> movies = new List<DeleteMovieViewModel>();
             foreach (var movie in _context.MoviePlaylistCombs.Include(m=>m.Movie).Where(m=>m.MoviePlaylistID==id))
             {
-                movies.Add(new DeleteMovieViewModel() { Titel = movie.Movie.Titel, ReleaseDate = movie.Movie.ReleaseDate, Lenght = movie.Movie.Lenght });
+                movies.Add(new DeleteMovieViewModel() { Titel = movie.Movie.Titel, ReleaseDate = movie.Movie.ReleaseDate,
+                Lenght = movie.Movie.Lenght, PhotoPath = movie.Movie.PhotoPath });
             }
             if (moviePlaylist == null)
             {

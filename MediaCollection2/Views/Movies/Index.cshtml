@@ -7,9 +7,6 @@
     <thead>
         <tr>
             <th>
-                ID
-            </th>
-            <th>
                 Titel
             </th>
             <th>
@@ -20,12 +17,6 @@
             </th>
             <th>
                 PhotoPath
-            </th>
-            <th>
-                WantToWatch
-            </th>
-            <th>
-                Watched
             </th>
             <th>
                 <a asp-action="Create" class="btn btn-danger"> <i class="far fa-plus-square"></i>Movie</a>
@@ -39,10 +30,7 @@
 
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titel)
+                    <a asp-action="Detail" asp-route-Id="@item.ID"> @Html.DisplayFor(modelItem => item.Titel)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
@@ -52,12 +40,6 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-Id="@item.ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WantToWatch)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Watched)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID"> <i class="fas fa-edit"></i> Edit</a>

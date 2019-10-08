@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediaCollection2.Models.MusicModels.MusicPlaylist;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,5 +23,7 @@ namespace MediaCollection2.Models.MusicModels
         public string PhotoPath { get; set; }
         public string YoutubeTrailer { get; set; }
         public int playlist { get; set; }
+        public List<SelectListItem> Playlist { get; set; }
+
     }
 }

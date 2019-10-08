@@ -9,10 +9,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Naam)
+                Titel
             </th>
             <th></th>
         </tr>
@@ -21,9 +18,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Naam)
                 </td>

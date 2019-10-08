@@ -22,7 +22,6 @@ using MediaCollection2.Models.MoviesModels.Movies;
 
 namespace MediaCollection2.Areas.Movies
 {
-    [Authorize]
     public class MoviesController : Controller
     {
         private readonly MediaCollectionContext context;
@@ -141,10 +140,15 @@ namespace MediaCollection2.Areas.Movies
         [HttpPost]
         public ActionResult MovieToPlaylist(int MovieID, ListMovieViewModel model)
         {
-            context.MoviePlaylistCombs.Add(new MoviePlaylistComb() { MovieID = MovieID, MoviePlaylistID = model.Playlist });
-            context.SaveChanges();
+            var result = context.MoviePlaylistCombs.FirstOrDefault(p => p.MovieID == MovieID && p.MoviePlaylistID == model.Playlist);
+            if (result==null&&model.Playlist!=0)
+            {
+                context.MoviePlaylistCombs.Add(new MoviePlaylistComb() { MovieID = MovieID, MoviePlaylistID = model.Playlist });
+                context.SaveChanges();
+            }
             return RedirectToAction(nameof(Index));
         }
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -152,6 +156,7 @@ namespace MediaCollection2.Areas.Movies
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(CreateMovieViewModel model)
         {
             var userId = userManager.GetUserId(HttpContext.User);
@@ -181,6 +186,7 @@ namespace MediaCollection2.Areas.Movies
 
         }
 
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -209,6 +215,7 @@ namespace MediaCollection2.Areas.Movies
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, EditMovieViewModel model)
         {
             if (ModelState.IsValid)
@@ -237,6 +244,7 @@ namespace MediaCollection2.Areas.Movies
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -254,6 +262,7 @@ namespace MediaCollection2.Areas.Movies
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             var movie = context.Movies.Find(id);

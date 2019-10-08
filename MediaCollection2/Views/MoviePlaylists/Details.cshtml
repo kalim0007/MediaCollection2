@@ -15,27 +15,31 @@
             <table class="table">
 
                 <tr>
-                    <th>Nr.</th>
                     <th>Titel</th>
                     <th>ReleaseDate</th>
                     <th>Lenght</th>
+                    <th>Photo</th>
                 </tr>
 
                 @for (int i = 1; i < Model.Movies.Count + 1; i++)
                 {
-                    <tr>
-                        <td>@i</td>
-                        <td>
-                            @Model.Movies[i - 1].Titel
-                        </td>
-                        <td>
-                            @Model.Movies[i - 1].ReleaseDate
+            var photoPath = "~/Images/" + (Model.Movies[i-1].PhotoPath ?? "download.jfif");
 
-                        </td>
-                        <td>
-                            @Model.Movies[i - 1].Lenght
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    <a asp-action="Detail" asp-route-Id="@Model.Movies[i-1]"> @Model.Movies[i - 1].Titel</a>
+                </td>
+                <td>
+                    @Model.Movies[i - 1].ReleaseDate.ToShortDateString()
+
+                </td>
+                <td>
+                    @Model.Movies[i - 1].Lenght Min
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-Id="@Model.Movies[i-1].ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
+                </td>
+            </tr>
                 }
             </table>
         }
@@ -44,5 +48,5 @@
 
 </div>
 <div>
-    <a asp-action="Index"> <i class="fas fa-back"></i> Back to List</a>
+    <a asp-action="Index"> <i class="fas fa-back"></i> Playlists</a>
 </div>

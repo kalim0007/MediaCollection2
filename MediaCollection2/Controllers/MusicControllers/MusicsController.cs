@@ -16,45 +16,73 @@ using MediaCollection2.Models.MusicModels.MusicDirector;
 using MediaCollection2.Models.MusicModels.MusicWriter;
 using MediaCollection2.Models.MusicModels.Music;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using MediaCollection2.Models.MusicModels.MusicPlaylist;
 
 namespace MediaCollection2.Controllers
 {
-    [Authorize]
     public class MusicsController : Controller
     {
         private readonly MediaCollectionContext _context;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly UserManager<IdentityUser> userManager;
+
         public decimal teller { get; set; }
         public decimal totalrating { get; set; }
         public decimal avgrating { get; set; }
 
-        public MusicsController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment)
+        public MusicsController(MediaCollectionContext context, IHostingEnvironment hostingEnvironment, UserManager<IdentityUser> userManager)
         {
             _context = context;
             this.hostingEnvironment = hostingEnvironment;
-        }
-        public IActionResult MusicToPlaylist()
-        {
-            return View("Index");
+            this.userManager = userManager;
         }
         [HttpPost]
-        public IActionResult MusicToPlaylist(int? id, int? musicId)
+        public ActionResult MusicToPlaylist(int MusicID, MusicListViewModel model)
         {
-            return View();
+            if (model.Playlist != 0)
+            {
+                _context.MusicPlaylistCombs.Add(new MusicPlaylistComb() { MusicID = MusicID, MusicPlaylistID = model.Playlist });
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult Index()
         {
-            List<MusicViewModels> model = new List<MusicViewModels>();
-            var musics = _context.Musics.ToList();
+            var userId = userManager.GetUserId(HttpContext.User);
+            var model = new MusicListViewModel();
+            model.Musics = new List<MusicViewModels>();
+            var musics = _context.Musics;
+            var UserPlaylists = _context.MusicPlaylists.Include(p => p.Musics).Where(p => p.UserId == userId).ToList();
             foreach (var music in musics)
             {
-                model.Add(new MusicViewModels() { ID = music.ID, Lenght = music.Lenght, PhotoPath = music.PhotoPath, ReleaseDate = music.ReleaseDate, Titel = music.Titel });
+                var selectlistitems = new List<SelectListItem>();
+
+                foreach (var playlist in UserPlaylists)
+                {
+                    if (!_context.MusicPlaylistCombs.Any(p => p.MusicID == music.ID && p.MusicPlaylistID == playlist.ID))
+                    {
+                        selectlistitems.Add(new SelectListItem() { Value = playlist.ID.ToString(), Text = playlist.Naam });
+                    }
+                }
+                model.Musics.Add(new MusicViewModels()
+                {
+                    ID = music.ID,
+                    Titel = music.Titel,
+                    ReleaseDate = music.ReleaseDate,
+                    Lenght = music.Lenght,
+                    PhotoPath = music.PhotoPath,
+                    WantToListen = music.WantToListen,
+                    Listened = music.Listened,
+                    Playlist = selectlistitems,
+                });
             }
             ViewData["playlist"] = new SelectList(_context.MusicPlaylists, "ID", "Naam");
             return View(model);
         }
 
         // GET: Musics/Details/5
+    [Authorize]
         public IActionResult Details(int? id)
         {
             var music = _context.Musics.Include(m => m.Reviews).Include(m => m.Genres).Include(m => m.Directors).Include(m => m.Writers).FirstOrDefault(m => m.ID == id);
@@ -95,6 +123,9 @@ namespace MediaCollection2.Controllers
                 Directors = directors,
                 Writers = writers,
                 PhotoPath = music.PhotoPath,
+                Youtube = music.YoutubeTrailer,
+                Listened = music.Listened,
+                WantToListen = music.WantToListen,
             };
 
             foreach (var review in music.Reviews)
@@ -116,6 +147,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Musics/Create
+    [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -126,6 +158,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MusicViewModels model)
         {
             if (ModelState.IsValid)
@@ -156,6 +189,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Musics/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -187,6 +221,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(MusicViewModels model)
         {
             string uniqueFileName = null;
@@ -218,6 +253,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Musics/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

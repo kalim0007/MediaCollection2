@@ -19,5 +19,6 @@ namespace MediaCollection2.Models
         public int WriterID { get; set; }
         public string Director { get; set; }
         public string Writer { get; set; }
+        public string PhotoPath{ get; set; }
     }
 }
