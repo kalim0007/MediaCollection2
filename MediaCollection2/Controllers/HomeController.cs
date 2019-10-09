@@ -25,14 +25,20 @@ namespace MediaCollection2.Controllers
         public IActionResult MyIndex()
         {
             List<ListMovieViewModel> Movies = new List<ListMovieViewModel>();
+            List<ListMovieViewModel> Movies2 = new List<ListMovieViewModel>();
             List<MusicViewModels> Musics = new List<MusicViewModels>();
             List<SerieViewModel> Series = new List<SerieViewModel>();
             //movies list
             var movies = context.Movies.Include(m => m.Reviews).ToList();
-          //  movies.OrderByDescending(m => m.Reviews.Select(r => r.Rating));
-
-            if (movies.Count() < 5)
-            {
+            //  movies.OrderByDescending(m => m.Reviews.Select(r => r.Rating));
+            //foreach (var movie in movies)
+            //{
+            //    var ratingavg = context.Reviews.Where(rr => rr.MovieID == movie.ID).Select(rr => rr.Rating).Sum() /
+            //                    context.Reviews.Where(rr => rr.MovieID == movie.ID).Select(rr => rr.Rating).Count();
+                
+            //}
+            //if (movies.Count() < 5)
+            //{
                 for (int i = 0; i < movies.Count(); i++)
                 {
                     var movieRating = 0;
@@ -50,27 +56,33 @@ namespace MediaCollection2.Controllers
 
                     Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
                 }
-            }
-            else
+            Movies = Movies.OrderByDescending(m => m.Rating).ToList();
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    var movieRating = 0;
-                    var totalRating = 0;
-                    var reviewCounter = 0;
-                    if (movies[i].Reviews.Count != 0)
-                    {
-                        foreach (var review in movies[i].Reviews)
-                        {
-                            reviewCounter++;
-                            totalRating += review.Rating;
-                        }
-                        movieRating = totalRating / reviewCounter;
-                    }
-
-                    Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
-                }
+                Movies2.Add(new ListMovieViewModel() { Titel = Movies[i].Titel, Rating = Movies[i].Rating, PhotoPath = Movies[i].PhotoPath, Lenght = Movies[i].Lenght, ID = Movies[i].ID, YoutubeTrailer = Movies[i].YoutubeTrailer, ReleaseDate = Movies[i].ReleaseDate, });
             }
+
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < 5; i++)
+            //    {
+            //        var movieRating = 0;
+            //        var totalRating = 0;
+            //        var reviewCounter = 0;
+            //        if (movies[i].Reviews.Count != 0)
+            //        {
+            //            foreach (var review in movies[i].Reviews)
+            //            {
+            //                reviewCounter++;
+            //                totalRating += review.Rating;
+            //            }
+            //            movieRating = totalRating / reviewCounter;
+            //        }
+
+            //        Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
+            //    }
+            //}
             //musiclist
             var musics = context.Musics.Include(m => m.Reviews).ToList();
             musics.OrderBy(m => m.Reviews.Select(r => r.Rating));
@@ -133,11 +145,10 @@ namespace MediaCollection2.Controllers
                     Series.Add(new SerieViewModel() { Titel = series[i].Titel, Rating = series[i].Rating, PhotoPath = series[i].PhotoPath, SeasonID = series[i].ID, YoutubeTrailer = series[i].YoutubeTrailer, SeasonNr = series[i].Nr });
                 }
             }
-            Movies = Movies.OrderByDescending(m => m.Rating).ToList();
             Musics = Musics.OrderByDescending(m => m.Rating).ToList();
             Series = Series.OrderByDescending(m => m.Rating).ToList();
 
-            var model = new MyIndexViewModel() { Movies = Movies, Musics = Musics, Series = Series };
+            var model = new MyIndexViewModel() { Movies = Movies2, Musics = Musics, Series = Series };
             return View(model);
         }
         public IActionResult Index()

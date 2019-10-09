@@ -207,57 +207,5 @@ namespace MediaCollection2.Controllers
 
             return RedirectToAction("Edit", new { Id = roleId });
         }
-        //[HttpGet]
-        //public async Task<ActionResult> EditUsersInRole(string roleId)
-        //{
-        //    ViewBag.roleId = roleId;
-        //    var role = await roleManager.FindByIdAsync(roleId);
-        //    if (role == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var model = new List<UserRoleViewModel>();
-        //    foreach (var user in userManager.Users)
-        //    {
-        //        var userRoleViewModel = new UserRoleViewModel
-        //        {
-        //            userId = user.Id,
-        //            UserName = user.UserName,
-        //        };
-        //        if (await userManager.IsInRoleAsync(user,role.Name))
-        //        {
-        //            userRoleViewModel.IsSelected = true;
-        //        }
-        //        else
-        //        {
-        //            userRoleViewModel.IsSelected = false;
-        //        }
-        //        model.Add(userRoleViewModel);
-        //    }
-        //    return View(model);
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> EditUsersInRole(string roleId, List<UserRoleViewModel> model)
-        //{
-        //    var role = await roleManager.FindByIdAsync(roleId);
-        //    foreach (var user in model)
-        //    {
-        //        var User = await userManager.FindByIdAsync(user.userId);
-        //        IdentityResult result = null;
-        //        if (user.IsSelected&& !(await userManager.IsInRoleAsync(User,role.Name)))
-        //        {
-        //            result = await userManager.AddToRoleAsync(User, role.Name);
-        //        }
-        //        else if (!user.IsSelected && (await userManager.IsInRoleAsync(User, role.Name)))
-        //        {
-        //            result = await userManager.RemoveFromRoleAsync (User, role.Name);
-        //        }
-        //        else
-        //        {
-        //            continue;
-        //        }
-        //    }
-        //    return RedirectToAction("Edit", new { id = roleId });
-        //}
     }
 }
