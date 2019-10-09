@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
-    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly MediaCollectionContext context;
@@ -72,6 +71,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Reviews/Create
+    [Authorize]
         public IActionResult Create()
         {
             ViewData["MovieID"] = new SelectList(context.Movies, "ID", "Titel");
@@ -83,6 +83,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MovieReviewCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -96,6 +97,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Reviews/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +126,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(int id,  MovieReviewEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -141,6 +144,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Reviews/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -163,6 +167,7 @@ namespace MediaCollection2.Controllers
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var review = await context.Reviews.FindAsync(id);

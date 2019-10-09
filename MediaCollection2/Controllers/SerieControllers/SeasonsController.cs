@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.SerieControllers
 {
-    [Authorize]
     public class SeasonsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -63,6 +62,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         }
 
         // GET: Series/Create
+    [Authorize]
         public IActionResult Create()
         {
             ViewData["SerieID"] = new SelectList(_context.Series, "ID", "Titel");
@@ -75,6 +75,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(SeasonViewModel model)
         {
             if (ModelState.IsValid)
@@ -96,6 +97,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         }
 
         // GET: Series/Edit/5
+    [Authorize]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -118,6 +120,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(int lastSerieID, SeasonViewModel model)
         {
                 string uniqueFileName = null;
@@ -146,6 +149,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             return RedirectToAction(nameof(Index));
         }
 
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,6 +170,7 @@ namespace MediaCollection2.Controllers.SerieControllers
         // POST: Series/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var season = await _context.Seasons.FindAsync(id);

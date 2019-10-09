@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers
 {
-    [Authorize]
     public class DirectorsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -56,6 +55,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Directors/Create
+    [Authorize]
         public IActionResult Create()
         {
             ViewData["MovieID"] = new SelectList(_context.Movies, "ID", "Titel");
@@ -67,7 +67,8 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MovieDirectorCreateViewModel model )
+    [Authorize]
+        public async Task<IActionResult> Create(MovieDirectorCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +87,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Directors/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,6 +110,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(int id, MovieDirectorEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -125,6 +128,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Directors/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,6 +150,7 @@ namespace MediaCollection2.Controllers
         // POST: Directors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var director = await _context.Directors.FindAsync(id);

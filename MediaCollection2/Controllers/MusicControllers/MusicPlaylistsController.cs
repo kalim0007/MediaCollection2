@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
-    [Authorize]
     public class MusicPlaylistsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -28,21 +27,34 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         public IActionResult Index()
         {
+            var userId = userManager.GetUserId(HttpContext.User);
+
             List<MusicPlaylistViewModel> model = new List<MusicPlaylistViewModel>();
             foreach (var playlist in _context.MusicPlaylists.Include(m => m.User))
             {
-                var username = "No User";
-                if (playlist.User != null)
+                if (userId==playlist.UserId)
                 {
-                    username = playlist.User.UserName;
+                    model.Add(new MusicPlaylistViewModel()
+                    {
+                        ID = playlist.ID,
+                        Naam = playlist.Naam,
+                        UserID = userId,
+                        Public = playlist.Public,
+                    });
+                    return View(model);
                 }
-                model.Add(new MusicPlaylistViewModel()
+                else if(playlist.Public==true)
                 {
-                    ID = playlist.ID,
-                    Naam = playlist.Naam,
-                    User = username,
-                    Public = playlist.Public,
-                });
+                    model.Add(new MusicPlaylistViewModel()
+                    {
+                        ID = playlist.ID,
+                        Naam = playlist.Naam,
+                        UserID = userId,
+                        Public = playlist.Public,
+                    });
+                    return View(model);
+                }
+
 
             }
             return View(model);
@@ -58,9 +70,9 @@ namespace MediaCollection2.Controllers.MusicControllers
             var musicPlaylist = await _context.MusicPlaylists.Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.ID == id);
             List<MusicViewModels> musics = new List<MusicViewModels>();
-            foreach (var movie in _context.MusicPlaylistCombs.Include(m => m.Musics).Where(m => m.MusicPlaylistID == id))
+            foreach (var music in _context.MusicPlaylistCombs.Include(m => m.Musics).Where(m => m.MusicPlaylistID == id))
             {
-                musics.Add(new MusicViewModels() { Titel = movie.Musics.Titel, ReleaseDate = movie.Musics.ReleaseDate, Lenght = movie.Musics.Lenght });
+                musics.Add(new MusicViewModels() { ID=music.Musics.ID, Titel = music.Musics.Titel, ReleaseDate = music.Musics.ReleaseDate, Lenght = music.Musics.Lenght , PhotoPath = music.Musics.PhotoPath });
             }
             if (musicPlaylist == null)
             {
@@ -76,6 +88,7 @@ namespace MediaCollection2.Controllers.MusicControllers
             return View(model);
         }
 
+    [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -84,6 +97,7 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MusicPlaylistViewModel model)
         {
             var userId = userManager.GetUserId(HttpContext.User);
@@ -95,6 +109,7 @@ namespace MediaCollection2.Controllers.MusicControllers
             return RedirectToAction(nameof(Index));
         }
 
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -120,6 +135,7 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(MusicPlaylistViewModel model)
         {
             if (ModelState.IsValid)
@@ -137,6 +153,7 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         }
 
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -161,6 +178,7 @@ namespace MediaCollection2.Controllers.MusicControllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var musicPlaylist = await _context.MusicPlaylists.Include(m => m.User)

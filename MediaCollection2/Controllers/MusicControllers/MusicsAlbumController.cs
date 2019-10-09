@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
-    [Authorize]
     public class MusicsAlbumController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -72,6 +71,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MoviePlaylists/Create
+    [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -82,6 +82,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MusicAlbumViewModel model)
         {
             if (ModelState.IsValid)
@@ -101,6 +102,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MoviePlaylists/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -126,6 +128,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(MusicAlbumViewModel model)
         {
             string uniqueFileName = null;
@@ -153,6 +156,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MoviePlaylists/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -178,6 +182,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // POST: MoviePlaylists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var album = await _context.Albums.FindAsync(id);

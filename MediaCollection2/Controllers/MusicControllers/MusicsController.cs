@@ -82,7 +82,6 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: Musics/Details/5
-    [Authorize]
         public IActionResult Details(int? id)
         {
             var music = _context.Musics.Include(m => m.Reviews).Include(m => m.Genres).Include(m => m.Directors).Include(m => m.Writers).FirstOrDefault(m => m.ID == id);
@@ -106,11 +105,11 @@ namespace MediaCollection2.Controllers
             }
             foreach (var director in music.Directors)
             {
-                directors.Add(new MusicDirectorViewModel() { Name = director.Name, DateOfBirth = director.DateOfBirth, Music = director.Music.Titel });
+                directors.Add(new MusicDirectorViewModel() {ID = director.ID, Name = director.Name, DateOfBirth = director.DateOfBirth, Music = director.Music.Titel });
             }
             foreach (var writer in music.Writers)
             {
-                writers.Add(new MusicWriterViewModel() { Name = writer.Name, DateOfBirth = writer.DateOfBirth, Music = writer.Music.Titel });
+                writers.Add(new MusicWriterViewModel() { ID = writer.ID, Name = writer.Name, DateOfBirth = writer.DateOfBirth, Music = writer.Music.Titel });
             }
             var model = new MusicDetailViewModel()
             {

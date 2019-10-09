@@ -37,10 +37,9 @@
                     <li><a asp-area="" asp-controller="Movies" asp-action="Index"><i class="fas fa-film fa-2x"> Movies</i></a></li>
                     <li><a asp-area="" asp-controller="Musics" asp-action="Index"><i class="fas fa-music fa-2x"> Musics</i></a></li>
                     <li><a asp-area="" asp-controller="Series" asp-action="Index"><i class="fas fa-server fa-2x"> Series</i></a></li>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.IsInRole("Admin"))
                     {
-                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
-                        <li><a asp-area="" asp-controller="Users" asp-action="Index">User</a></li>
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index"><i class="fas fa-users-cog fa-2x"> Admin</i></a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />

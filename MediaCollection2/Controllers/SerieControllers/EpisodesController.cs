@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.SerieControllers
 {
-    [Authorize]
     public class EpisodesController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -51,6 +50,7 @@ namespace MediaCollection2.Controllers.SerieControllers
             return View(model);
         }
 
+    [Authorize]
         public IActionResult Create()
         {
             ViewData["SeasonID"] = new SelectList(_context.Seasons, "ID", "Titel");
@@ -60,6 +60,7 @@ namespace MediaCollection2.Controllers.SerieControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(EpisodesViewModel model)
         {
             if (ModelState.IsValid)
@@ -72,6 +73,7 @@ namespace MediaCollection2.Controllers.SerieControllers
 
         }
 
+    [Authorize]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -92,6 +94,7 @@ namespace MediaCollection2.Controllers.SerieControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(EpisodesViewModel model)
         {
             if (ModelState.IsValid)
@@ -109,6 +112,7 @@ namespace MediaCollection2.Controllers.SerieControllers
 
         }
 
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,6 +134,7 @@ namespace MediaCollection2.Controllers.SerieControllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var episode = await _context.Episodes.FindAsync(id);

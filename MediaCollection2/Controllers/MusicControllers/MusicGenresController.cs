@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MediaCollection2.Controllers.MusicControllers
 {
-    [Authorize]
     public class MusicGenresController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -65,6 +64,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MusicGenres/Create
+    [Authorize]
         public IActionResult Create()
         {
             ViewData["MusicID"] = new SelectList(_context.Musics, "ID", "Titel");
@@ -76,6 +76,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MusicGenreViewModel model)
         {
             if (ModelState.IsValid)
@@ -88,6 +89,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MusicGenres/Edit/5
+    [Authorize]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -116,6 +118,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(MusicGenreViewModel model)
         {
             if (ModelState.IsValid)
@@ -132,6 +135,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         }
 
         // GET: MusicGenres/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,6 +163,7 @@ namespace MediaCollection2.Controllers.MusicControllers
         // POST: MusicGenres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var musicGenre = await _context.MusicGenres.FindAsync(id);

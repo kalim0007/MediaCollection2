@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MediaCollection2.Controllers
 {
-    [Authorize]
     public class MoviePlaylistsController : Controller
     {
         private readonly MediaCollectionContext _context;
@@ -30,14 +29,29 @@ namespace MediaCollection2.Controllers
         public IActionResult Index()
         {
             List<MoviePlaylistViewModel> model = new List<MoviePlaylistViewModel>();
+
+            var userId = userManager.GetUserId(HttpContext.User);
             foreach (var playlist in _context.MoviePlaylists)
             {
-                model.Add(new MoviePlaylistViewModel()
+                if (playlist.UserId==userId)
                 {
-                    ID = playlist.ID,
-                    Naam = playlist.Naam,
-                });
+                    model.Add(new MoviePlaylistViewModel()
+                    {
+                        ID = playlist.ID,
+                        Naam = playlist.Naam,
+                    });
+                    return View(model);
+                }
+                else if (playlist.Public)
+                {
+                    model.Add(new MoviePlaylistViewModel()
+                    {
+                        ID = playlist.ID,
+                        Naam = playlist.Naam,
+                    });
+                }
             }
+            
             return View(model);
         }
 
@@ -71,6 +85,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: MoviePlaylists/Create
+    [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -81,6 +96,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Create(MoviePlaylistViewModel model)
         {
             var userId = userManager.GetUserId(HttpContext.User);
@@ -93,6 +109,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: MoviePlaylists/Edit/5
+    [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,6 +135,7 @@ namespace MediaCollection2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> Edit(MoviePlaylistViewModel model)
         {
             if (ModelState.IsValid)
@@ -134,6 +152,7 @@ namespace MediaCollection2.Controllers
         }
 
         // GET: MoviePlaylists/Delete/5
+    [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,6 +178,7 @@ namespace MediaCollection2.Controllers
         // POST: MoviePlaylists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+    [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var moviePlaylist = await _context.MoviePlaylists.FindAsync(id);

@@ -29,7 +29,8 @@ namespace MediaCollection2.Controllers
             List<SerieViewModel> Series = new List<SerieViewModel>();
             //movies list
             var movies = context.Movies.Include(m => m.Reviews).ToList();
-            movies.OrderBy(m => m.Reviews.Select(r => r.Rating));
+          //  movies.OrderByDescending(m => m.Reviews.Select(r => r.Rating));
+
             if (movies.Count() < 5)
             {
                 for (int i = 0; i < movies.Count(); i++)
@@ -132,6 +133,10 @@ namespace MediaCollection2.Controllers
                     Series.Add(new SerieViewModel() { Titel = series[i].Titel, Rating = series[i].Rating, PhotoPath = series[i].PhotoPath, SeasonID = series[i].ID, YoutubeTrailer = series[i].YoutubeTrailer, SeasonNr = series[i].Nr });
                 }
             }
+            Movies = Movies.OrderByDescending(m => m.Rating).ToList();
+            Musics = Musics.OrderByDescending(m => m.Rating).ToList();
+            Series = Series.OrderByDescending(m => m.Rating).ToList();
+
             var model = new MyIndexViewModel() { Movies = Movies, Musics = Musics, Series = Series };
             return View(model);
         }
