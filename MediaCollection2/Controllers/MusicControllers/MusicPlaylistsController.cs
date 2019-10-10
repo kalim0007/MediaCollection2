@@ -28,9 +28,9 @@ namespace MediaCollection2.Controllers.MusicControllers
         public IActionResult Index()
         {
             var userId = userManager.GetUserId(HttpContext.User);
-
+            var playlists = _context.MusicPlaylists.Include(m => m.User).ToList();
             List<MusicPlaylistViewModel> model = new List<MusicPlaylistViewModel>();
-            foreach (var playlist in _context.MusicPlaylists.Include(m => m.User))
+            foreach (var playlist in playlists)
             {
                 if (userId==playlist.UserId)
                 {
@@ -41,7 +41,6 @@ namespace MediaCollection2.Controllers.MusicControllers
                         UserID = userId,
                         Public = playlist.Public,
                     });
-                    return View(model);
                 }
                 else if(playlist.Public==true)
                 {
@@ -52,7 +51,6 @@ namespace MediaCollection2.Controllers.MusicControllers
                         UserID = userId,
                         Public = playlist.Public,
                     });
-                    return View(model);
                 }
 
 

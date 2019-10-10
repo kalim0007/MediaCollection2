@@ -26,7 +26,7 @@
 
                     <tr>
                         <td>
-                            <a asp-action="Detail" asp-controller="Musics" asp-route-id="@Model.Musics[i-1].ID"> @Model.Musics[i - 1].Titel</a>
+                            <a asp-action="Details" asp-controller="Musics" asp-route-id="@Model.Musics[i-1].ID"> @Model.Musics[i - 1].Titel</a>
                         </td>
                         <td>
                             @Model.Musics[i - 1].ReleaseDate.ToShortDateString()

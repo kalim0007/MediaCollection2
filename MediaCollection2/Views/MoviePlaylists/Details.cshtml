@@ -27,7 +27,7 @@
 
             <tr>
                 <td>
-                    <a asp-action="Detail" asp-route-Id="@Model.Movies[i-1]"> @Model.Movies[i - 1].Titel</a>
+                    <a asp-action="Details" asp-controller="Movies" asp-route-Id="@Model.Movies[i-1].ID"> @Model.Movies[i - 1].Titel</a>
                 </td>
                 <td>
                     @Model.Movies[i - 1].ReleaseDate.ToShortDateString()
@@ -37,7 +37,7 @@
                     @Model.Movies[i - 1].Lenght Min
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-Id="@Model.Movies[i-1].ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
+                    <a asp-action="Details" asp-controller="Movies" asp-route-Id="@Model.Movies[i-1].ID"><img class="IndexImg" src="@photoPath" asp-append-version="true" /></a>
                 </td>
             </tr>
                 }
