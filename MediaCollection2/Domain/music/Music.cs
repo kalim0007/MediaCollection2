@@ -17,7 +17,6 @@ namespace MediaCollection2.Domain.music
         public string YoutubeTrailer { get; set; }
         public bool WantToListen { get; set; }
         public bool Listened { get; set; }
-        public ICollection<MusicDirector> Directors { get; set; }
         public ICollection<MusicWriter> Writers { get; set; }
         public ICollection<MusicGenre> Genres { get; set; }
         public ICollection<MusicReview> Reviews { get; set; }

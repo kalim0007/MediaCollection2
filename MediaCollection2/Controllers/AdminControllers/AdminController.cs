@@ -143,25 +143,31 @@ namespace MediaCollection2.Controllers
             }
 
             var model = new List<UserRoleViewModel>();
+            var currentUserId = userManager.GetUserId(HttpContext.User);
+
 
             foreach (var user in userManager.Users)
             {
-                var userRoleViewModel = new UserRoleViewModel
+                if (currentUserId!=user.Id)
                 {
-                    userId = user.Id,
-                    UserName = user.UserName
-                };
+                    var userRoleViewModel = new UserRoleViewModel
+                    {
+                        userId = user.Id,
+                        UserName = user.UserName
+                    };
 
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRoleViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRoleViewModel.IsSelected = false;
+                    if (await userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        userRoleViewModel.IsSelected = true;
+                    }
+                    else
+                    {
+                        userRoleViewModel.IsSelected = false;
+                    }
+
+                    model.Add(userRoleViewModel);
                 }
 
-                model.Add(userRoleViewModel);
             }
 
             return View(model);

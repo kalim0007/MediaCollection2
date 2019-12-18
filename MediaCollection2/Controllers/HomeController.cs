@@ -57,10 +57,15 @@ namespace MediaCollection2.Controllers
                     Movies.Add(new ListMovieViewModel() { Titel = movies[i].Titel, Rating = movieRating, PhotoPath = movies[i].PhotoPath, Lenght = movies[i].Lenght, ID = movies[i].ID, YoutubeTrailer = movies[i].YoutubeTrailer, ReleaseDate = movies[i].ReleaseDate, });
                 }
             Movies = Movies.OrderByDescending(m => m.Rating).ToList();
-            for (int i = 0; i < 5; i++)
+            if (Movies.Count<5)
             {
-                Movies2.Add(new ListMovieViewModel() { Titel = Movies[i].Titel, Rating = Movies[i].Rating, PhotoPath = Movies[i].PhotoPath, Lenght = Movies[i].Lenght, ID = Movies[i].ID, YoutubeTrailer = Movies[i].YoutubeTrailer, ReleaseDate = Movies[i].ReleaseDate, });
+                Addmovies(Movies, Movies2, movies.Count);
             }
+            else
+            {
+                Addmovies(Movies, Movies2, 5);
+            }
+
 
             //}
             //else
@@ -151,6 +156,24 @@ namespace MediaCollection2.Controllers
             var model = new MyIndexViewModel() { Movies = Movies2, Musics = Musics, Series = Series };
             return View(model);
         }
+
+        private static void Addmovies(List<ListMovieViewModel> Movies, List<ListMovieViewModel> Movies2, int Length)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                Movies2.Add(new ListMovieViewModel()
+                {
+                    Titel = Movies[i].Titel,
+                    Rating = Movies[i].Rating,
+                    PhotoPath = Movies[i].PhotoPath,
+                    Lenght = Movies[i].Lenght,
+                    ID = Movies[i].ID,
+                    YoutubeTrailer = Movies[i].YoutubeTrailer,
+                    ReleaseDate = Movies[i].ReleaseDate,
+                });
+            }
+        }
+
         public IActionResult Index()
         {
             return View();

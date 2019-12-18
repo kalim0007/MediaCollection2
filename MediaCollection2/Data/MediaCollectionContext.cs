@@ -27,7 +27,6 @@ namespace MediaCollection2.Data
         public DbSet<Music> Musics { get; set; }
         public DbSet<MusicGenre> MusicGenres { get; set; }
         public DbSet<MusicReview> MusicReviews { get; set; }
-        public DbSet<MusicDirector> MusicDirectors { get; set; }
         public DbSet<MusicWriter> MusicWriters { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<MusicPlaylistComb> MusicPlaylistCombs { get; set; }
