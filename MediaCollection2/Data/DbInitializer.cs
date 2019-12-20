@@ -224,7 +224,7 @@ namespace MediaCollection2.Data
                 new Review
                 {
                     Comment = "Outstanding Movie",
-                    Rating = 8,
+                    Rating = 10,
                     MovieID = movies[0].ID,
 
                 },
@@ -232,7 +232,7 @@ namespace MediaCollection2.Data
                 new Review
                 {
                     Comment = "Outstanding Movie",
-                    Rating = 8,
+                    Rating = 9,
                     MovieID = movies[1].ID,
                 },
 
@@ -246,14 +246,14 @@ namespace MediaCollection2.Data
                 new Review
                 {
                     Comment = "Outstanding Movie",
-                    Rating = 8,
+                    Rating = 7,
                     MovieID = movies[3].ID,
                 },
 
                 new Review
                 {
                     Comment = "Outstanding Movie",
-                    Rating = 8,
+                    Rating = 6,
                     MovieID = movies[4].ID,
                 },
 };
@@ -384,30 +384,30 @@ namespace MediaCollection2.Data
                 new MusicGenre
                 {
                     Naam="hiphop",
-                    MusicID = movies[0].ID
+                    MusicID = musics[0].ID
                 },
                 new MusicGenre
                 {
                     Naam="hiphop",
-                    MusicID = movies[1].ID
+                    MusicID = musics[1].ID
 
                 },
                 new MusicGenre
                 {
                     Naam="hiphop",
-                    MusicID = movies[2].ID
+                    MusicID = musics[2].ID
                 },
 
                 new MusicGenre
                 {
                     Naam="hiphop",
-                    MusicID = movies[3].ID
+                    MusicID = musics[3].ID
                 },
 
                 new MusicGenre
                 {
                     Naam="hiphop",
-                    MusicID = movies[4].ID
+                    MusicID = musics[4].ID
                 },
 };
             foreach (var genre in musicgenres)
@@ -420,37 +420,37 @@ namespace MediaCollection2.Data
                 new MusicReview
                 {
                     Comment = "Outstanding ",
-                    Rating = 8,
-                    MusicsID = movies[0].ID,
+                    Rating = 10,
+                    MusicsID = musics[0].ID,
 
                 },
 
                 new MusicReview
                 {
                     Comment = "Outstanding ",
-                    Rating = 8,
-                    MusicsID = movies[1].ID,
+                    Rating = 9,
+                    MusicsID = musics[1].ID,
                 },
 
                 new MusicReview
                 {
                     Comment = "Outstanding ",
                     Rating = 8,
-                    MusicsID = movies[2].ID,
+                    MusicsID = musics[2].ID,
                 },
 
                 new MusicReview
                 {
                     Comment = "Outstanding ",
-                    Rating = 8,
-                    MusicsID = movies[3].ID,
+                    Rating = 7,
+                    MusicsID = musics[3].ID,
                 },
 
                 new MusicReview
                 {
                     Comment = "Outstanding ",
-                    Rating = 8,
-                    MusicsID = movies[4].ID,
+                    Rating = 6,
+                    MusicsID = musics[4].ID,
                 },
 };
             foreach (var review in musicreviews)
